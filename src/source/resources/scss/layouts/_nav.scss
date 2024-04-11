@@ -4,8 +4,6 @@
   margin-top: 7rem;
   background-color: rgba(59, 153, 215, 0.2);
   padding: 0;
-  z-index: 1;
-  height: 7rem;
   .navbar-nav {
     .nav-item:last-child {
       display: flex;
@@ -14,15 +12,18 @@
 
     .nav-item:hover .nav-link,
     .nav-item:hover .nav-link-icon {
-      color: $color-primary-shade;
+      color: var(--primary-color-shade);
     }
 
     .nav-item:not(:last-child) .nav-link::after {
       content: '';
-      background-color: $color-text-light;
-      @include box(0.2rem, 1.4rem);
-      @include abs-pos(50%, 0);
+      background-color: var(--grey-color-2);
+      width: 0.2rem;
+      height: 1.4rem;
+      position: absolute;
+      top: 50%;
       transform: translateY(-50%);
+      right: 0;
     }
 
     .nav-item:last-child .nav-link {
@@ -30,14 +31,15 @@
     }
 
     .nav-link {
-      @include font(1.6rem, false, $color-text-light);
+      font-size: 1.6rem;
       padding: 2.7rem 3rem;
+      color: var(--grey-color-2);
       position: relative;
       transition: all 0.2s;
     }
 
     .nav-link-icon {
-      color: $color-text-light;
+      color: var(--grey-color-2);
       cursor: pointer;
       transition: all 0.2s;
     }
@@ -45,18 +47,18 @@
 }
 
 .light.navbar {
-  background-color: $color-primary-tint;
+  background-color: var(--primary-color-tint);
   .nav-item:not(:last-child) .nav-link::after {
-    background-color: $color-text-dark;
+    background-color: var(--grey-color-1);
   }
   .navbar-nav .nav-link {
-    color: $color-text-dark;
+    color: var(--grey-color-1);
     &:hover {
-      color: $color-primary-shade;
+      color: var(--primary-color-shade);
     }
   }
   .nav-link-icon {
-    color: $color-text-dark;
+    color: var(--grey-color-1);
   }
 }
 
@@ -65,8 +67,11 @@
   position: relative;
   &::before {
     content: '';
-    @include abs-pos(100%, false, false, 0);
-    @include box(120%, 1rem);
+    position: absolute;
+    top: 100%;
+    width: 120%;
+    left: 0;
+    height: 1rem;
     display: none;
     z-index: 999;
   }
@@ -77,8 +82,11 @@
 }
 
 .subnav {
-  @include abs-pos(calc(100% + 1rem), false, false, 0);
-  @include font(1.6rem, normal);
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  font-weight: normal;
+  font-size: 1.6rem;
   text-transform: capitalize;
   border-radius: 0.5rem;
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.25);
@@ -89,14 +97,14 @@
     &:link,
     &:visited {
       white-space: nowrap;
-      color: $color-text-dark;
+      color: var(--grey-color-1);
       padding: 0.5em 2rem;
       background-color: #fff;
       display: block;
     }
     &:active,
     &:hover {
-      background-color: $color-primary;
+      background-color: var(--primary-color);
       color: #fff;
     }
   }

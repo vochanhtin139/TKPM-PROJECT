@@ -1,25 +1,17 @@
 .header {
   background-color: rgba(59, 153, 215, 0.2);
-  transition: all 0.2s;
-  z-index: 1;
+  transition: $primary-trans;
 
   .logo {
     padding: 0.5rem 2rem;
-    img {
-      width: unset;
-    }
   }
 
   .cart-icon {
-    font-size: $font-size-secondary;
+    font-size: $secondary-fz;
 
     &::before {
-      color: $color-text-light;
+      color: $grey-2;
       cursor: pointer;
-    }
-
-    &:hover {
-      opacity: 0.6;
     }
   }
 }
@@ -34,14 +26,15 @@
     color: #fff;
 
     &::placeholder {
-      color: $color-text-light;
+      color: $grey-2;
     }
   }
 
   .search-icon-link {
     width: 2rem;
     font-size: 1.6rem;
-    @include abs-pos(false, 2rem);
+    position: absolute;
+    right: 2rem;
 
     .search-icon::before {
       color: #fff;
@@ -50,18 +43,36 @@
 }
 
 .header.light {
-  background-color: $color-primary;
+  background-color: $primary-color;
 
   .search-input {
-    background-color: $color-white;
-    color: $color-text-dark;
+    background-color: $grey-3;
+    color: $grey-1;
 
     &::placeholder {
-      color: $color-text-dark;
+      color: $grey-1;
     }
   }
 
   .search-icon::before {
-    color: $color-text-dark;
+    color: $grey-1;
+  }
+}
+
+.btn {
+  font-size: 1.6rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  background-color: $primary-color-tint;
+  padding: 0.5rem 2rem;
+
+  & + & {
+    background-color: $grey-2;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 0.2rem $grey-2 inset;
+    color: $grey-2;
+    background-color: $primary-color-shade;
   }
 }
