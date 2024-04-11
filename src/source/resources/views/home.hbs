@@ -1,3 +1,4 @@
+<!-- Main -->
 <main>
   {{! Hero (Carousel)  }}
   <div
@@ -29,21 +30,21 @@
     </div>
     <div class='carousel-inner'>
       <div class='carousel-item active' data-bs-interval='5000'>
-        <img src='img/hero/hero-image.jpg ' class='d-block w-100' alt='img' />
+        <img src='img/hero-image.jpg ' class='d-block w-100' alt='img' />
         <div class='carousel-caption d-none d-md-block'>
           <h1>First slide label</h1>
           <p>Some representative placeholder content for the first slide.</p>
         </div>
       </div>
       <div class='carousel-item' data-bs-interval='5000'>
-        <img src='img/hero/hero-image.jpg' class='d-block w-100' alt='img' />
+        <img src='img/hero-image.jpg' class='d-block w-100' alt='img' />
         <div class='carousel-caption d-none d-md-block'>
           <h1>Second slide label</h1>
           <p>Some representative placeholder content for the second slide.</p>
         </div>
       </div>
       <div class='carousel-item' data-bs-interval='5000'>
-        <img src='img/hero/hero-image.jpg' class='d-block w-100' alt='img' />
+        <img src='img/hero-image.jpg' class='d-block w-100' alt='img' />
         <div class='carousel-caption d-none d-md-block'>
           <h1>Third slide label</h1>
           <p>Some representative placeholder content for the third slide.</p>
@@ -105,16 +106,49 @@
 
   <!-- Trending  -->
   <section class='trend container'>
-    <h2 class='main-heading'>Daily discover</h2>
-    <div class='trend-row'>
-      <figure class='trend-card'>
+    <div class='row'>
+      <div class='rectangle col'></div>
+      <h2 class='main-heading col-md-auto'>DAILY DISCOVER</h2>
+      <div class='rectangle col'></div>
+    </div>
+    <div class='trend-row row'>
+      <figure class='trend-card col card'>
         <a href='#' class='trend-card-img'>
-          <img src='#' alt='Something ...' />
+          <img src='../img/SachCSDL.jpg' alt='Something ...' />
+        </a>
+        <p class='card-title trend-card-title'>Title</p>
+        <p class='trend-card-price'>Price</p>
+        <a href='#' class='btn trend-card-btn'>Buy now</a>
+      </figure>
+
+      <figure class='trend-card col card'>
+        <a href='#' class='card-img-top trend-card-img'>
+          <img src='../img/SachCSDL.jpg' alt='Something ...' />
         </a>
         <p class='trend-card-title'>Title</p>
         <p class='trend-card-price'>Price</p>
         <a href='#' class='btn trend-card-btn'>Buy now</a>
       </figure>
+
+      <figure class='trend-card col card'>
+        <a href='#' class='trend-card-img'>
+          <img src='../img/SachCSDL.jpg' alt='Something ...' />
+        </a>
+        <p class='trend-card-title'>Title</p>
+        <p class='trend-card-price'>Price</p>
+        <a href='#' class='btn trend-card-btn'>Buy now</a>
+      </figure>
+
+      <figure class='trend-card col card'>
+        <a href='#' class='trend-card-img'>
+          <img src='../img/SachCSDL.jpg' alt='Something ...' />
+        </a>
+        <p class='trend-card-title'>Title</p>
+        <p class='trend-card-price'>Price</p>
+        <a href='#' class='btn trend-card-btn'>Buy now</a>
+      </figure>
+    </div>
+    <div class='see-more-btn'>
       <a href='#' class='btn trend-btn'>
         <span>See more</span>
         <i class='fa-solid fa-cart-shopping cart-icon'></i>
@@ -122,4 +156,3 @@
     </div>
   </section>
 </main>
-<script src='js/home.js'></script>
