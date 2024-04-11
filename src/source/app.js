@@ -31,19 +31,10 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
 app.get('/', (req, res) => {
-  res.render('home', { showHeader: true, showFooter: true });
-});
-
-app.get('/manage-product', (req, res) => {
-  res.render('manage-product', { showHeader: true, showFooter: true });
-});
-
-app.get('/edit-product', (req, res) => {
-  res.render('edit-product', { showHeader: true, showFooter: true });
-});
-
-app.get('/dashboard', (req, res) => {
-  res.render('dashboard', { showHeader: true, showFooter: true });
+  // res.render('home');
+  // res.render('product/all-product');
+  // res.render('product/specific-product');
+  res.render('order/manage-order');
 });
 
 module.exports = app;
