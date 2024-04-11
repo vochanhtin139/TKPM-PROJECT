@@ -1,0 +1,161 @@
+.all-product {
+  margin-top: 14rem;
+  max-width: 108rem;
+
+  .sort-section {
+    margin-top: 2.5rem;
+
+    .form-select {
+      margin-top: 2rem;
+      width: 26rem;
+      height: 4rem;
+      font-size: 1.6rem;
+      box-shadow: 3px 3px 3px rgba($color: $color-text-dark, $alpha: 0.6);
+    }
+  }
+
+  .filter-vs-product {
+    padding-top: 2.5rem;
+
+    .filter-section {
+      height: 37rem;
+      background-color: $color-primary-tint;
+
+      .search-bar {
+        position: relative;
+
+        .search-input {
+          height: 3.4rem;
+          width: 100%;
+          border-radius: 2rem;
+          background-color: $color-white;
+          color: $color-text-dark;
+
+          &::placeholder {
+            color: $color-text-dark;
+          }
+        }
+
+        .search-icon-link {
+          width: 2rem;
+          font-size: 1.6rem;
+          position: absolute;
+          right: 1rem;
+          top: 2rem;
+
+          .search-icon::before {
+            color: $color-text-dark;
+          }
+        }
+      }
+
+      .price-filter {
+        .slider {
+          appearance: none;
+          width: 100%;
+          height: 1rem;
+          background: $color-text-dark;
+          outline: none;
+          opacity: 0.7;
+          -webkit-transition: 0.2s;
+          transition: opacity 0.2s;
+          border-radius: 0.5rem;
+        }
+
+        .slider::-webkit-slider-thumb {
+          appearance: none;
+          width: 1.5rem;
+          height: 1.5rem;
+          background: $color-primary;
+          cursor: pointer;
+          border-radius: 50%;
+        }
+
+        .filter-btn {
+          background-color: $color-text-light;
+
+          &:hover {
+            background-color: $color-primary-shade;
+          }
+        }
+      }
+
+      .filter-type-list {
+        .list-title {
+          font-size: 2rem;
+          font-weight: 700;
+          text-transform: uppercase;
+        }
+
+        .list-title+hr {
+          width: 42%;
+        }
+
+        .type-item {
+          font-size: 1.6rem;
+
+          a {
+            display: inline-block;
+          }
+
+          a .type-name {
+            color: $color-text-dark;
+          }
+
+          .number {
+            color: $color-text-dark;
+          }
+        }
+      }
+    }
+
+    .product-section {
+      .related-item {
+        height: 35rem;
+        .img {
+          background-color: $color-text-light;
+          height: 45%;
+          // flex-grow: 1;
+          a {
+            display: flex;
+            justify-content: center;
+
+            .img-product {
+              width: 70%;
+              vertical-align: middle;
+              object-fit: cover;
+            }
+          }
+        }
+
+        .name-vs-price {
+          text-align: center;
+          background-color: $color-text-light;
+          padding-top: 1rem;
+
+          .name {
+            margin-top: 4rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+          }
+
+          .price {
+            font-size: 1.5rem;
+            font-weight: 400;
+            padding-bottom: 2rem;
+          }
+        }
+
+        .buy-item-btn {
+          padding: 1rem 0;
+        }
+      }
+    }
+    .pagination-container{
+      width: 25rem;
+      .pagination-description{
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
