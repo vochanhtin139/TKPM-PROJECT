@@ -3,10 +3,10 @@ function toggleFollow() {
 
     if (followButton.textContent === 'Follow') {
         followButton.textContent = 'Followed';
-        followButton.classList.toggle('clicked');
+        followButton.classList.add('followed');
     } else {
         followButton.textContent = 'Follow';
-        followButton.classList.toggle('clicked');
+        followButton.classList.remove('followed');
     }
 }
 function toggleSave(discountId) {
@@ -14,9 +14,9 @@ function toggleSave(discountId) {
 
     if (saveButton.textContent === 'Save') {
         saveButton.textContent = 'Saved';
-        saveButton.classList.toggle('clicked');
+        saveButton.classList.add('saved');
     } else {
         saveButton.textContent = 'Save';
-        saveButton.classList.toggle('clicked');
+        saveButton.classList.remove('saved');
     }
 }
