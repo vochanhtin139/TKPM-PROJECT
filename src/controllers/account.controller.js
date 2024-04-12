@@ -2,17 +2,15 @@ const Account = require('../models/account.model');
 const passport = require('passport');
 const { render } = require('../utils/renderPage');
 const { sendForgotPasswordMail } = require('../utils/mail');
+const bcrypt = require('bcrypt');
 const {
   mutipleMongooseToObject,
   mongooseToObject,
 } = require('../utils/mongoose');
-class productController {
+class acccountController {
   // [GET] account/sign-up
-  showSignUp = async (req, res, next) => {
+  getSignUp = async (req, res, next) => {
     try {
-      if (req.isAuthenticated()) {
-        return res.redirect('/account/profile');
-      }
       res.render('sign-up', {
         registerMessage: req.flash('registerMessage'),
         reqUrl: req.query.reqUrl,
@@ -24,7 +22,6 @@ class productController {
 
   // [POST] account/sign-up
   signUp = async (req, res, next) => {
-    // let reqUrl = req.body.reqUrl ? req.body.reqUrl : '/account/sign-in';
     passport.authenticate('local-register', (error, user) => {
       if (error) {
         return next(error);
@@ -42,10 +39,10 @@ class productController {
   };
 
   // [GET] account/sign-in
-  showSignIn = async (req, res, next) => {
+  getSignIn = async (req, res, next) => {
     try {
       if (req.isAuthenticated()) {
-        return res.redirect('/account/profile');
+        return res.redirect('/account/my-profile');
       }
       res.render('sign-in', {
         loginMessage: req.flash('loginMessage'),
@@ -59,7 +56,7 @@ class productController {
   // [POST] account/sign-in
   signIn = async (req, res, next) => {
     let keepSignedIn = req.body.keepSignedIn;
-    let reqUrl = req.body.reqUrl ? req.body.reqUrl : '/account/profile';
+    let reqUrl = req.body.reqUrl ? req.body.reqUrl : '/account/my-profile';
     console.log('keepSignedIn:', keepSignedIn);
     passport.authenticate('local-login', (error, user) => {
       if (error) {
@@ -88,15 +85,6 @@ class productController {
     res.redirect(`/account/sign-in?reqUrl=${req.originalUrl}`);
   };
 
-  // [GET] account/profile
-  showProfile = async (req, res, next) => {
-    try {
-      render(req, res, 'profile_updating');
-    } catch (err) {
-      next(err);
-    }
-  };
-
   // [GET] account/sign-out
   signOut = async (req, res, next) => {
     req.logout((error) => {
@@ -109,7 +97,7 @@ class productController {
 
   // [GET] account/forgot
   showForgotPassword = (req, res, next) => {
-    res.render('forgot-password');
+    render(req, res, 'forgot-password');
   };
 
   // [POST] acccount/forgot
@@ -118,14 +106,16 @@ class productController {
     // Check email tồn tại
     let user = await Account.findOne({ email: email });
     if (user) {
-      // Tạo link
-      const { sign } = require('../utils/jwt');
       const host = req.header('host');
-      const resetLink = `${req.protocol}://${host}/account/reset?token=${sign(
-        email
-      )}&email=${email}`;
+      // Cập nhật mới ngẫu nhiên 1 password cho user trong database
+      const { generateRandomStr } = require('../utils/function-helpers');
+      // Hash mật khẩu và update vào database
+      const newPassword = generateRandomStr(8);
+      await Account.updateOne({
+        password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(8)),
+      });
       // Gửi mail
-      sendForgotPasswordMail(user, host, resetLink)
+      sendForgotPasswordMail(user, host, newPassword)
         .then((result) => {
           console.log('Email has been sent');
           return res.render('forgot-password', { done: true });
@@ -147,25 +137,50 @@ class productController {
     }
   };
 
-  showResetPassword = (req, res) => {
-    let email = req.query.email;
-    let token = req.query.token;
-    let { verify } = require('../utils/jwt');
-    if (!token || !verify(token)) {
-      return res.render('reset-password', { expired: true });
-    } else {
-      return res.render('reset-password', { email, token });
+  // [GET] account/my-profile
+  getMyProfile = async (req, res, next) => {
+    try {
+      res.render('profile_updating');
+    } catch (err) {
+      next(err);
     }
   };
 
-  resetPassword = async (req, res) => {
-    let email = req.body.email;
-    let token = req.body.token;
-    let bcrypt = require('bcrypt');
-    let password = bcrypt.hashSync(req.body.password, bcrypt.genSalt(8));
-    await Account.updateOne({ email: email }, { password: password });
-    res.render('reset-password', { done: true });
+  // [GET] account/my-order-pending
+  getMyOrderPending = async (req, res, next) => {
+    try {
+      res.render('my_order_inConfirmation');
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-order-cancelled
+  getMyOrderCancelled = async (req, res, next) => {
+    try {
+      res.render('my_order_canceled');
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-order
+  getMyOrder = async (req, res, next) => {
+    try {
+      res.render('my_order');
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/become-seller
+  getBecomeSeller = async (req, res, next) => {
+    try {
+      res.render('become_seller');
+    } catch (err) {
+      next(err);
+    }
   };
 }
 
-module.exports = new productController();
+module.exports = new acccountController();
