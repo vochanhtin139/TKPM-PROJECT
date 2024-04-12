@@ -1,21 +1,88 @@
 const createError = require('http-errors');
 const Account = require('../models/account.model');
-const passport = require('passport');
-const { render } = require('../utils/renderPage');
 const {
   mutipleMongooseToObject,
   mongooseToObject,
 } = require('../utils/mongoose');
 class productController {
   // [GET] account/sign-up
-  showSignUp = async (req, res, next) => {
+  getSignUp = async (req, res, next) => {
     try {
-      if (req.isAuthenticated()) {
-        return res.redirect('/account/profile');
-      }
       res.render('sign-up', {
-        registerMessage: req.flash('registerMessage'),
-        reqUrl: req.query.reqUrl,
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-profile
+  getMyProfile = async (req, res, next) => {
+    try {
+      res.render('profile_updating', {
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-order-pending
+  getMyOrderPending = async (req, res, next) => {
+    try {
+      res.render('my_order_inConfirmation', {
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-order-cancelled
+  getMyOrderCancelled = async (req, res, next) => {
+    try {
+      res.render('my_order_canceled', {
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/my-order
+  getMyOrder = async (req, res, next) => {
+    try {
+      res.render('my_order', {
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/become-seller
+  getBecomeSeller = async (req, res, next) => {
+    try {
+      res.render('become_seller', {
+        showHeader: true,
+        showFooter: true,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  // [GET] account/sign-in
+  getSignIn = async (req, res, next) => {
+    try {
+      res.render('sign-in', {
+        showHeader: true,
+        showFooter: true,
       });
     } catch (err) {
       next(err);
@@ -24,33 +91,15 @@ class productController {
 
   // [POST] account/sign-up
   signUp = async (req, res, next) => {
-    // let reqUrl = req.body.reqUrl ? req.body.reqUrl : '/account/sign-in';
-    passport.authenticate('local-register', (error, user) => {
-      if (error) {
-        return next(error);
-      }
-      // Đăng kí không thành công, load lại trang đăng kí
-      console.log(user);
-      if (!user) {
-        console.log('Đăng kí không thành công');
-        return res.redirect(`/account/sign-up`);
-      } else {
-        // Đăng kí thành công
-        res.redirect('/account/sign-in');
-      }
-    })(req, res, next);
-  };
-
-  // [GET] account/sign-in
-  showSignIn = async (req, res, next) => {
     try {
-      if (req.isAuthenticated()) {
-        return res.redirect('/account/profile');
+      const formData = req.body;
+      const isExists = await Account.findOne({ email: formData.email });
+      if (isExists) {
+        throw createError.Conflict(`This email already exists`);
       }
-      res.render('sign-in', {
-        loginMessage: req.flash('loginMessage'),
-        reqUrl: req.query.reqUrl,
-      });
+      const account = Account(formData);
+      account.save();
+      res.redirect('/account/sign-in');
     } catch (err) {
       next(err);
     }
@@ -58,54 +107,18 @@ class productController {
 
   // [POST] account/sign-in
   signIn = async (req, res, next) => {
-    let keepSignedIn = req.body.keepSignedIn;
-    let reqUrl = req.body.reqUrl ? req.body.reqUrl : '/account/profile';
-    console.log('keepSignedIn:', keepSignedIn);
-    passport.authenticate('local-login', (error, user) => {
-      if (error) {
-        return next(error);
-      }
-      if (!user) {
-        // Xác thực thất bại
-        return res.redirect(`/account/sign-in?reqUrl=${reqUrl}`);
-      }
-      req.logIn(user, (error) => {
-        if (error) {
-          // Đăng nhập thất bại
-          return next(error);
-        }
-        // Đăng nhập thành công
-        req.session.cookie.maxAge = keepSignedIn ? 24 * 60 * 60 * 1000 : null;
-        return res.redirect(reqUrl);
-      });
-    })(req, res, next);
-  };
-
-  isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect(`/account/sign-in?reqUrl=${req.originalUrl}`);
-  };
-
-  // [GET] account/profile
-  showProfile = async (req, res, next) => {
     try {
-      render(req, res, 'profile_updating');
+      // res.render('sign-in', {
+      //   showHeader: true,
+      //   showFooter: true,
+      //   successMessage: true,
+      // });
     } catch (err) {
       next(err);
     }
   };
-
-  // [GET] account/sign-out
-  signOut = async (req, res, next) => {
-    req.logout((error) => {
-      if (error) {
-        return next(error);
-      }
-      res.redirect('/');
-    });
-  };
 }
+
+
 
 module.exports = new productController();
