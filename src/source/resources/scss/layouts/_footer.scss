@@ -1,17 +1,16 @@
 .footer {
   background-color: $color-primary;
-  padding: 2rem 9rem;
+  padding: 2rem 0;
+  width: 100%;
 
   .footer-title {
     color: #fff;
     font-family: Ubuntu;
     font-size: 22px;
     font-weight: 700;
-
     width: fit-content;
 
     border-bottom: 0.5rem solid #fff;
-    padding-bottom: 0.75rem;
   }
 
   .footer-list {
@@ -20,6 +19,7 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 1.5em;
+    margin-top: 1rem;
   }
 
   .footer-link {
