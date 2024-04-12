@@ -118,7 +118,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       height: 1rem;
       background-color: #ff7971;
       border-radius: 50%; }
-  .header .announce-icon.noti-active + .announce-list {
+  .header .announce-icon.noti-open + .announce-list {
     display: flex; }
   .header .announce-list {
     display: none;
@@ -133,12 +133,14 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     padding: 0.5rem; }
     .header .announce-list .announce-link {
       display: inline-block;
-      background-color: #f6f6f6;
       padding: 0.4rem;
       position: relative;
       border: 0.4rem solid #fff;
+      border-bottom: 0.1rem solid #ccc;
       padding: 1rem; }
-      .header .announce-list .announce-link::before {
+    .header .announce-list .announce-link.unread {
+      background-color: #f6f6f6; }
+      .header .announce-list .announce-link.unread::before {
         content: '';
         width: 1.5rem;
         height: 1.5rem;
@@ -147,7 +149,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         top: 1rem;
         right: 1rem;
         border-radius: 50%; }
-      .header .announce-list .announce-link:hover {
+      .header .announce-list .announce-link.unread:hover {
         background-color: #e9e9e9; }
     .header .announce-list .announce-title {
       font-size: 2rem;
@@ -472,8 +474,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     height: 4rem; }
 
 .banner {
-  margin-top: 10rem;
-  margin-bottom: 10rem; }
+  margin-top: 1.5rem; }
 
 .banner-row {
   display: flex; }
@@ -485,19 +486,10 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
   margin: auto auto;
   padding: 0 4rem; }
   .banner-article .main-heading {
-    margin-bottom: 3rem;
-    font-size: 5rem;
-    font-weight: 700;
-    text-transform: uppercase; }
-  .banner-article .paragraph {
-    color: #31383e;
-    text-align: justify;
-    font-family: Ubuntu;
-    font-size: 2rem;
-    font-weight: 400; }
+    margin-bottom: 1rem; }
 
 .trend {
-  margin-bottom: 10rem; }
+  margin-top: 4rem; }
   .trend .main-heading {
     line-height: 3.5rem;
     border-radius: 15px;
@@ -514,7 +506,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     padding: 0 0;
     margin: auto 0; }
   .trend .trend-row {
-    margin-top: 4rem; }
+    margin-top: 2rem; }
   .trend .trend-card {
     margin: 0 1rem;
     border-radius: 0;
@@ -548,7 +540,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     border-radius: 0;
     background: #31383e; }
   .trend .see-more-btn {
-    margin-top: 4rem;
+    margin-top: 2rem;
     margin-bottom: 8rem;
     display: flex;
     align-items: center;
