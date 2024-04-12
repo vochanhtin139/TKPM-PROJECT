@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   padding: 0;
   margin: 0;
@@ -119,7 +118,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       height: 1rem;
       background-color: #ff7971;
       border-radius: 50%; }
-  .header .announce-icon.noti-active + .announce-list {
+  .header .announce-icon.noti-open + .announce-list {
     display: flex; }
   .header .announce-list {
     display: none;
@@ -134,12 +133,14 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     padding: 0.5rem; }
     .header .announce-list .announce-link {
       display: inline-block;
-      background-color: #f6f6f6;
       padding: 0.4rem;
       position: relative;
       border: 0.4rem solid #fff;
+      border-bottom: 0.1rem solid #ccc;
       padding: 1rem; }
-      .header .announce-list .announce-link::before {
+    .header .announce-list .announce-link.unread {
+      background-color: #f6f6f6; }
+      .header .announce-list .announce-link.unread::before {
         content: '';
         width: 1.5rem;
         height: 1.5rem;
@@ -148,7 +149,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         top: 1rem;
         right: 1rem;
         border-radius: 50%; }
-      .header .announce-list .announce-link:hover {
+      .header .announce-list .announce-link.unread:hover {
         background-color: #e9e9e9; }
     .header .announce-list .announce-title {
       font-size: 2rem;
@@ -471,7 +472,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       justify-content: center; }
       .account-profile-main .row .col-3 .avatar .avatar-left i {
         padding-top: 0.5rem;
-        font-size: 7.9rem;
+        font-size: 8rem;
         padding-bottom: 0.6rem; }
     .account-profile-main .row .col-3 .avatar .avatar-right {
       height: 90%;
@@ -479,22 +480,18 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       align-items: flex-start;
       justify-content: space-between; }
       .account-profile-main .row .col-3 .avatar .avatar-right .info-avatar {
-        height: 50%;
-        font-size: 1.8rem;
-        font-weight: 600; }
+        height: 50%; }
         .account-profile-main .row .col-3 .avatar .avatar-right .info-avatar .mail {
-          font-size: 1.2rem;
-          font-weight: 100; }
+          font-size: 1.2rem; }
       .account-profile-main .row .col-3 .avatar .avatar-right .signup-btn {
         height: 80%;
         width: 100%; }
         .account-profile-main .row .col-3 .avatar .avatar-right .signup-btn button {
-          width: 70%;
           display: block;
           background-color: azure;
           height: 50%;
-          color: rgba(0, 0, 0, 0.58);
-          font-weight: 600;
+          color: black;
+          font-weight: bold;
           font-size: 1.5rem; }
           .account-profile-main .row .col-3 .avatar .avatar-right .signup-btn button:hover {
             background-color: #337ab7;
@@ -520,8 +517,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         margin-right: 1.5rem;
         font-size: 2rem; }
       .account-profile-main .row .col-3 .my-account button span {
-        font-size: 2rem;
-        font-weight: 600; }
+        font-size: 1.5rem; }
   .account-profile-main .row .col-3 .my-order {
     width: 100%;
     height: 7%;
@@ -543,8 +539,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         margin-right: 1.5rem;
         font-size: 2rem; }
       .account-profile-main .row .col-3 .my-order button span {
-        font-size: 2rem;
-        font-weight: 600; }
+        font-size: 1.5rem; }
   .account-profile-main .row .col-3 .become-seller {
     width: 100%;
     height: 7%;
@@ -567,8 +562,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         margin-right: 1.6rem;
         font-size: 2rem; }
       .account-profile-main .row .col-3 .become-seller button span {
-        font-size: 2rem;
-        font-weight: 600; }
+        font-size: 1.5rem; }
   .account-profile-main .row .col-3 .remain {
     width: 100%;
     padding-left: 2rem; }
@@ -1298,38 +1292,17 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 
 .register {
   display: flex;
-  justify-content: end;
-  margin-top: 5rem; }
+  justify-content: end; }
   .register button {
     background-color: #3b99d7;
     height: 50%;
-    color: rgba(0, 0, 0, 0.426);
+    color: black;
     font-weight: bold;
     font-size: 1.5rem; }
     .register button:hover {
       background-color: #337ab7;
       box-shadow: none;
       color: white; }
-
-.contract-container {
-  margin-left: 0.5rem;
-  margin-top: 3rem;
-  width: 99%;
-  max-height: 20rem;
-  /* Chiều cao tối đa của khung chứa */
-  overflow-y: auto;
-  /* Hiển thị thanh cuộn nếu nội dung vượt quá chiều cao */
-  border: 0.000001rem solid #ccc;
-  border-radius: 0.4rem; }
-
-/* Định dạng cho nội dung điều khoản hợp đồng */
-.contract-content {
-  font-size: 14px;
-  line-height: 1.6; }
-
-.agree-term {
-  padding-left: 2.2rem;
-  padding-top: 2rem; }
 
 .part-right-my-order {
   padding-left: 15.4rem; }
@@ -1338,27 +1311,31 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
   display: flex;
   justify-content: center; }
 
+.background_emphasis {
+  background-color: #337ab7;
+  color: white;
+  font-weight: bold;
+  pointer-events: none; }
+
+.text_black {
+  color: black;
+  font-weight: bold; }
+
 .col-9 nav {
   height: 8%; }
   .col-9 nav ul {
-    height: 60%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 0; }
+    height: 60%; }
     .col-9 nav ul li {
-      width: 33.33333%;
+      width: 25%;
       height: 100%; }
       .col-9 nav ul li a {
         height: 80%;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 1.5rem;
-        color: rgba(0, 0, 0, 0.68); }
+        font-size: 1.3rem; }
 
 .col-9 .card {
-  margin-top: -2rem;
   margin-bottom: 4rem; }
   .col-9 .card .card-body .contain {
     display: flex; }
@@ -1383,15 +1360,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     height: 15%; }
     .evaluate-body .rating .first-choice {
       margin-left: 4rem; }
-
-.text_black {
-  color: black;
-  font-weight: bold; }
-
-.background_emphasis {
-  background-color: #337ab7;
-  font-weight: bold;
-  pointer-events: none; }
 
 .container-fluid {
   margin-top: 14rem; }
@@ -1423,17 +1391,15 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     .account-profile-main .row .col-9 .form-select {
       height: 60%; }
     .account-profile-main .row .col-9 .change-password {
-      height: 5%;
       display: flex;
-      align-items: end;
-      font-size: larger; }
+      align-items: center; }
     .account-profile-main .row .col-9 .save-changes {
       display: flex;
       justify-content: end; }
       .account-profile-main .row .col-9 .save-changes button {
         background-color: #3b99d7;
         height: 50%;
-        color: rgba(0, 0, 0, 0.437);
+        color: black;
         font-weight: bold;
         font-size: 1.5rem; }
         .account-profile-main .row .col-9 .save-changes button:hover {
@@ -1450,10 +1416,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 
 .color-white {
   color: white; }
-
-.input-size {
-  font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.598); }
 
 :root {
   --grey: #F6F6F6;
@@ -1762,11 +1724,11 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     width: 5rem; }
 
 :root {
-  --grey: #F6F6F6;
+  --grey: #f6f6f6;
   --dark-grey: #dedede;
   --input-text: #6b6b6b;
   --dark-blue: #337ab7;
-  --light-blue: #D9EDF7; }
+  --light-blue: #d9edf7; }
 
 .error-message {
   color: red; }
@@ -1774,10 +1736,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 .sign-up {
   margin-left: auto;
   margin-right: auto;
-  padding-left: 320px;
-  padding-right: 320px;
-  padding-top: 210px;
-  padding-bottom: 210px; }
+  padding: 20rem 32rem 10rem 32rem; }
   .sign-up .su-header {
     font-weight: 600;
     font-size: 5rem; }
@@ -1849,7 +1808,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 .sign-in {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 21rem;
+  padding-top: 18.5rem;
   margin-bottom: 7rem;
   display: flex;
   flex-direction: column;

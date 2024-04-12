@@ -24,7 +24,7 @@
                 i {
                     // padding: 1rem;
                     padding-top: 0.5rem;
-                    font-size: 7.9rem;
+                    font-size: 8rem;
                     padding-bottom: 0.6rem;
                     // background-color: white;
                 }
@@ -42,11 +42,9 @@
 
                 .info-avatar {
                     height: 50%;
-                    font-size: 1.8rem;
-                    font-weight: 600;
+
                     .mail {
                         font-size: 1.2rem;
-                        font-weight: 100;
                     }
                 }
 
@@ -64,13 +62,11 @@
                         // font-size: smaller;
                         // width: 70%;
                         // height: 70%;
-                        width: 70%;
                         display: block;
                         background-color:azure;
                         height: 50%;
-                        color: rgba(0, 0, 0, 0.58);
-                        // font-weight: bold;
-                        font-weight: 600;
+                        color: black;
+                        font-weight: bold;
                         font-size: 1.5rem;
 
                         &:hover {
@@ -112,8 +108,7 @@
                 }
 
                 span {
-                    font-size: 2rem;
-                    font-weight: 600;
+                    font-size: 1.5rem;
                 }
             }
 
@@ -147,8 +142,7 @@
                 }
 
                 span {
-                    font-size: 2rem;
-                    font-weight: 600;
+                    font-size: 1.5rem;
                 }
             }
         }
@@ -182,8 +176,7 @@
                 }
 
                 span {
-                    font-size: 2rem;
-                    font-weight: 600;
+                    font-size: 1.5rem;
                 }
             }
         }
