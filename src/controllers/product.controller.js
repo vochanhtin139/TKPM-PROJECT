@@ -1,3 +1,4 @@
+const hbs = require('express-handlebars');
 const Product = require('../models/product.model');
 const {
   mutipleMongooseToObject,
@@ -14,12 +15,12 @@ class productController {
         products: mutipleMongooseToObject(products),
       });
     } catch (err) {
-      next(err);
+      res.status(404).json(err);
     }
   };
 
   // [GET] product/manage
-  getManage = async (req, res, next) => {
+  getManage = async (req, res) => {
     try {
       const products = await Product.find();
       res.render('manage-product', {
@@ -28,7 +29,7 @@ class productController {
         products: mutipleMongooseToObject(products),
       });
     } catch (err) {
-      next(err);
+      res.status(404).json(err);
     }
   };
 
@@ -45,7 +46,7 @@ class productController {
     });
   };
 
-  // [POST] product/edit
+  // [POST] product/edit/save
   createNewProduct = async (req, res) => {};
 
   // [GET] product/edit/:id
@@ -63,7 +64,7 @@ class productController {
         },
       });
     } catch (err) {
-      next(err);
+      res.status(404).json(err);
     }
   };
 
