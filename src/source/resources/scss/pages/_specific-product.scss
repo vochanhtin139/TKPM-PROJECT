@@ -1,5 +1,5 @@
 .specific-product {
-  margin-top: 18rem;
+  margin-top: 14rem;
   max-width: 108rem;
 
   // global
@@ -11,22 +11,17 @@
 
   // payment section
   .payment-section {
+    // position: relative;
     font-size: $font-size-primary;
 
     .img-item {
-      height: 51.4rem;
+      height: 48rem;
       overflow: hidden;
-      flex-grow: 1;
 
-      a {
-        display: flex;
-        justify-content: center;
-
-        .img-product {
-          width: 35rem;
-          // vertical-align: middle;
-          // object-fit:scale-down;
-        }
+      .img-product {
+        max-width: 100%;
+        vertical-align: middle;
+        object-fit: cover;
       }
     }
 
@@ -81,14 +76,15 @@
       }
 
       .adjust-quantity {
-        margin-top: 10rem;
+        margin-top: 12rem;
 
         .quantity {
           line-height: 2.5rem;
           // text-align: justify;
         }
 
-        .adjust-icon button {}
+        .adjust-icon button {
+        }
 
         .available-product {
           // text-align: justify;
@@ -97,17 +93,12 @@
       }
 
       .payment-btn-section {
-        margin-top: 4rem;
-
-        a:nth-child(1) {
-          width: 15rem;
-          padding: 1rem 0;
+        button:nth-child(1) {
+          width: 16rem;
         }
-
-        a:nth-child(2) {
-          width: 20rem;
-          margin-left: 2rem;
-          padding: 1rem 0;
+        button:nth-child(2) {
+          width: 22rem;
+          margin-left: 1.5rem;
         }
       }
     }
@@ -115,7 +106,6 @@
 
   //comment section
   .comment-section {
-    margin-top: 2rem;
     .comment-item {
       .comment-title {
         background-color: $color-primary-tint;
@@ -123,6 +113,7 @@
         font-size: 2rem;
         font-weight: 700;
         text-align: center;
+        // margin: 0 0.75;
       }
 
       .information {
@@ -143,7 +134,8 @@
             font-weight: 600;
           }
 
-          .date {}
+          .date {
+          }
         }
       }
 
@@ -157,7 +149,6 @@
 
         .send-btn {
           margin-left: 1rem;
-          font-size: 1.5rem;
 
           &:hover i {
             color: $color-primary-tint;
@@ -182,8 +173,6 @@
 
   // related section
   .related-product {
-    margin-top: 2rem;
-    margin-bottom: 6rem;
     .related-title {
       background-color: $color-primary-tint;
       padding: 1.6rem 0;
@@ -195,48 +184,41 @@
     }
 
     // related items -> move below -> global
-    //related items
-    .related-item {
-      .img {
-        background-color: $color-text-light;
-        height: 70%;
-        // overflow: hidden;
-        flex-grow: 1;
+  }
+}
 
-        a {
-          display: flex;
-          justify-content: center;
+//related items
+.related-item {
+  .img {
+    height: 35rem;
+    overflow: hidden;
 
-          .img-product {
-            width: 70%;
-            vertical-align: middle;
-            object-fit: cover;
-          }
-        }
-      }
-
-      .name-vs-price {
-        text-align: center;
-        background-color: $color-text-light;
-        padding-top: 1rem;
-        // border-right: solid 0.3rem $color-primary-tint;
-        // border-left: solid 0.3rem $color-primary-tint;
-
-        .name {
-          font-size: 2.2rem;
-          font-weight: 600;
-        }
-
-        .price {
-          font-size: 1.8rem;
-          font-weight: 400;
-          padding-bottom: 2rem;
-        }
-      }
-
-      .buy-item-btn {
-        padding: 1rem 0;
-      }
+    .img-product {
+      max-width: 100%;
+      vertical-align: middle;
+      object-fit: cover;
     }
+  }
+
+  .name-vs-price {
+    text-align: center;
+    background-color: $color-text-light;
+    padding-top: 1rem;
+    border-right: solid 0.3rem $color-primary-tint;
+    border-left: solid 0.3rem $color-primary-tint;
+    .name {
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 400;
+      padding-bottom: 2rem;
+    }
+  }
+
+  .buy-item-btn {
+    padding: 1rem 0;
   }
 }
