@@ -1,6 +1,7 @@
 const Product = require('../models/product.model');
 const fs = require('fs');
 const Evaluate = require('../models/evaluate.model');
+
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
 
@@ -28,56 +29,9 @@ class productController {
   // [GET] product/manage
   getManage = async (req, res, next) => {
     try {
-      console.log(req.query);
-      let options = {};
-      // Tìm kiếm
-      let keyword = req.query.keyword || '';
-      // Lọc theo loại
-      let category = req.query.category || '';
-      // Sắp xếp
-      let sortBy = req.query.sortBy || '';
-      keyword = keyword.trim();
-      let originalUrl = req.originalUrl;
-      if (keyword != '') {
-        const regex = new RegExp(keyword, 'i');
-        options.name = regex;
-        originalUrl = removeParam('keyword', originalUrl);
-      }
-      console.log(originalUrl);
-      if (category != '') {
-        options.category = category;
-        originalUrl = removeParam('category', originalUrl);
-      }
-      console.log(originalUrl);
-      if (sortBy != '') {
-        originalUrl = removeParam('sortBy', originalUrl);
-      }
-      console.log(originalUrl);
-      // Phân trang
-      let page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const limit = 5;
-      // Thực hiện truy vấn
-      let products = await Product.find(options)
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .sort(sortBy);
-      res.locals._keyword = keyword;
-      res.locals._category = category;
-      res.locals._sortBy = sortBy;
-      res.locals._numberOfItems = await Product.find(options).countDocuments();
-      res.locals._limit = limit;
-      res.locals._currentPage = page;
-      res.locals._originalUrl = originalUrl;
-      // console.log(res.locals);
+      const products = await Product.find();
       res.render('manage-product', {
         products: mutipleMongooseToObject(products),
-        helpers: {
-          isEqual(c1, c2) {
-            return c1 == c2;
-          },
-        },
       });
     } catch (err) {
       next(err);
@@ -156,26 +110,15 @@ class productController {
       next(err);
     }
   };
-
-  // [POST] product/delete/:id
-  deleteProduct = async (req, res, next) => {
-    try {
-      console.log(req.query);
-      const product = await Product.findById(req.params.id);
-      if (product.image != '/img/products/default.png') {
-        fs.unlinkSync(`./source/public${product.image}`);
-      }
-      await Product.deleteOne({ _id: req.params.id });
-      res.redirect(
-        `/product/manage?page=${req.query.page ? req.query.page : ''}`
-      );
-    } catch (err) {
-      next(err);
-    }
-  };
   // ###########################################################
   // ###################### BUYER #############################
-  // getCart = {};
+  getAllProduct = async (req, res, next) => {
+    res.render('all-product');
+  };
+  getAProduct = async (req, res, next) => {
+    res.render('specific-product');
+  };
+  getCart = {};
   add2Cart = async (req, res, next) => {
     // Lấy id và quantity sản phẩm gửi từ client
     let id = req.body.id ? req.body.id : '';
@@ -370,7 +313,8 @@ class productController {
   // }
 }
 
-// ***************************** Helper function *******************************
+// Auxiliary
+
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split('?')[0],
     param,

@@ -26,8 +26,8 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: 'document',
-      enum: ['document', 'calculator', 'uniform', 'other'],
+      default: 'Document',
+      enum: ['Document', 'Calculator', 'Uniform', 'Other'],
     },
     image: {
       type: String,
@@ -35,8 +35,8 @@ const productSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'pending',
-      enum: ['available', 'pending', 'reported', 'banned'],
+      default: 'Pending',
+      enum: ['Available', 'Pending', 'Reported', 'Banned'],
     },
     isTrend: {
       type: Boolean,

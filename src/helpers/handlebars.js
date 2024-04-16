@@ -1,9 +1,6 @@
-const Handlebars = require('handlebars');
-const { createPagination } = require('express-handlebars-paginate');
+const Handlebars = require('handlebars')
+
 module.exports = {
-  accessArr: (arr, index) => arr[index],
-  showStar: (stars) => {
-    return stars ? stars : 0;
-  },
-  createPagination,
-};
+	accessArr: (arr, index) => arr[index],
+	showStar: (stars) => {return stars ? stars : 0},
+}
