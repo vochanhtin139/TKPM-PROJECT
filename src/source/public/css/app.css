@@ -751,8 +751,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     font-family: Inter;
     font-size: 1.5rem;
     font-weight: 500;
-    padding: 0 0.5rem;
-    width: 100%; }
+    padding: 0 0.5rem; }
   .trend .trend-card-price {
     text-align: center;
     color: #000;

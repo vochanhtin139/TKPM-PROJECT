@@ -7,15 +7,17 @@ const {
 
 class announceController {
   // [GET] announcement
-  getNewAnnouncement = (req, res) => render(req, res, 'admin_announcement');
+  createNewAnnouncement(req, res) {
+    res.render('admin_announcement', { showHeader: true, showFooter: true });
+  }
 
   // [POST] announcement/post
-  postNewAnnouncement = async (req, res) => {
+  saveNewAnnouncement = async (req, res) => {
     console.log(req.body);
     res.send('');
   };
 
-  // [GET] announcement/all
+  // [GET] announcement/view
   getAllAnnouncement = async (req, res, next) => {
     try {
       const announcements = await Announcement.find();
