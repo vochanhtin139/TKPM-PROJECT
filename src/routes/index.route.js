@@ -1,30 +1,70 @@
-const createError = require('http-errors');
 const siteRouter = require('./site.route');
 const productRouter = require('./product.route');
-const accountRouter = require('./account.route');
-const announceRouter = require('./announcement.route');
 
 function route(app) {
-  // Định nghĩa các route theo tài nguyên
   app.use('/', siteRouter);
-  app.use('/account', accountRouter);
-  app.use('/announcement', announceRouter);
   app.use('/product', productRouter);
+  // app.get('/profile', (req, res) => {
+  //   res.render('profile_updating', { showHeader: true, showFooter: true });
+  // });
 
-  // Hai middlewares này phải để cuối để check lỗi
-  app.use((req, res, next) => {
-    res.status(404).render('error', {
-      message: 'File not Found',
-      lastName: req.user ? req.user.lastName : '',
-    });
-  });
-  app.use((error, req, res, next) => {
-    console.error(error);
-    res.status(500).render('error', {
-      message: 'Internal Server Error!',
-      lastName: req.user ? req.user.lastName : '',
-    });
-  });
+  // app.get('/becomeseller', (req, res) => {
+  //   res.render('become_seller', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/myorderdelivery', (req, res) => {
+  //   res.render('my_order_inDelivery', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/myorderconfirmation', (req, res) => {
+  //   res.render('my_order_inConfirmation', {
+  //     showHeader: true,
+  //     showFooter: true,
+  //   });
+  // });
+
+  // app.get('/myordercanceled', (req, res) => {
+  //   res.render('my_order_canceled', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/myorder', (req, res) => {
+  //   res.render('my_order', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/test', (req, res) => {
+  //   res.render('test', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/all-product', (req, res) => {
+  //   res.render('all-product', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/specific-product', (req, res) => {
+  //   res.render('specific-product', {
+  //     showHeader: true,
+  //     showFooter: true,
+  //   });
+  // });
+
+  // app.get('/manage-order', (req, res) => {
+  //   res.render('manage-order', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/shop-info', (req, res) => {
+  //   res.render('shop-info', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/manage-product', (req, res) => {
+  //   res.render('manage-product', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/edit-product', (req, res) => {
+  //   res.render('edit-product', { showHeader: true, showFooter: true });
+  // });
+
+  // app.get('/dashboard', (req, res) => {
+  //   res.render('dashboard', { showHeader: true, showFooter: true });
+  // });
 }
 
 module.exports = route;
