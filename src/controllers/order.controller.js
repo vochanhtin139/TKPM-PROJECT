@@ -1,6 +1,5 @@
 const hbs = require('express-handlebars');
 const Order = require('../models/order.model');
-const Account = require('../models/account.model');
 
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
@@ -13,44 +12,30 @@ const {
 var allProducts;
 
 class orderController {
-  // [GET] order/manage-order
+  // [GET] product/all-product
   showAllOrder = async (req, res, next) => {
     try {
-      const aOrder = await Account.findOne();
-      const accountId = aOrder._id
+      const products = await Product.find({});
+      const categories = await Product.aggregate([
+        {
+          $group: {
+            _id: '$category',
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ]);
 
-      const orders = await Order.find({idSeller: accountId})
-      .populate('idAccount')
-      .populate('detail.idProduct')
-      const orderObject = mutipleMongooseToObject(orders)
-      
-      var products = []
-      var messages = []
-      for (var i of orderObject){
-        messages.push({'idOrder': i._id, 'message': i.message})
-        for (var j of i.detail){
-          Object.assign(j,{'idOrder': i._id})
-          var temp = []
-          temp.push(j)
-          products.push(j)
-        }
-      }
-      // console.log(products)
+      res.locals.categories = categories;
+      res.locals.products = mutipleMongooseToObject(products);
 
-      // res.json(products)
-      // res.json(messages)
-      res.locals.orders = orderObject;
-      // res.locals.products = mongooseToObject(products);
-      res.locals.products = products;
-      res.locals.messages = messages;
-
-      res.render('manage-order');
-      
+      res.render('all-product');
     } catch (error) {
       res.status(500).json({ error: 'Lỗi khi lấy tất cả sản phẩm 1' });
     }
   };
-  
 }
 
 module.exports = new orderController();

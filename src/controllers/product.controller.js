@@ -1,7 +1,6 @@
 const Product = require('../models/product.model');
 const fs = require('fs');
 const Evaluate = require('../models/evaluate.model');
-const Account = require('../models/account.model');
 
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
@@ -113,12 +112,12 @@ class productController {
   };
   // ###########################################################
   // ###################### BUYER #############################
-  // getAllProduct = async (req, res, next) => {
-  //   res.render('all-product');
-  // };
-  // getAProduct = async (req, res, next) => {
-  //   res.render('specific-product');
-  // };
+  getAllProduct = async (req, res, next) => {
+    res.render('all-product');
+  };
+  getAProduct = async (req, res, next) => {
+    res.render('specific-product');
+  };
   getCart = {};
   add2Cart = async (req, res, next) => {
     // Lấy id và quantity sản phẩm gửi từ client
@@ -155,7 +154,7 @@ class productController {
   filterProduct = async (req, res, next) => {
     try {
       const type = req.query.category; //? req.query.category : 0
-      // console.log(type);
+      console.log(type);
       const products = await Product.find({ category: type });
       const categories = await Product.aggregate([
         {
@@ -182,7 +181,7 @@ class productController {
     try {
       const type = req.query.sort;
       const order = req.query.order;
-      // console.log(type, order);
+      console.log(type, order);
       const products = await Product.find({}).sort({ [type]: order });
 
       const categories = await Product.aggregate([
@@ -241,12 +240,6 @@ class productController {
 
       const product = await Product.findOne({ _id: productId });
       const details = product.description.split(';');
-      const evaluates = await Evaluate.find({idProduct: productId})
-      .populate({
-        path: 'idAccount',
-        select: 'firstName lastName avatar'
-      })
-      
       const stars = await Evaluate.aggregate([
         {
           $match: {
@@ -268,15 +261,26 @@ class productController {
         },
         { $limit: 6 },
       ]);
+      const evaluates = await Evaluate.aggregate([
+        {
+          $match: {
+            idProduct: productId,
+          },
+        },
+      ]);
+
+      // res.json(evaluates)
 
       res.locals.details = details;
       res.locals.product = mongooseToObject(product);
       res.locals.stars = stars[0];
       res.locals.related = related;
-      res.locals.evaluates = mutipleMongooseToObject(evaluates);
 
       res.render('specific-product');
+      // console.log(stars, product)
 
+      // var a = mongooseToObject(details)
+      // res.json({product, a})
     } catch (error) {
       res.status(500).json({ error: 'Lỗi khi lấy tất cả sản phẩm 3' });
     }
