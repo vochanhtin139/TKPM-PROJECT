@@ -1,8 +1,8 @@
+const { render } = require('../utils/renderPage');
 class SiteController {
   // [GET] /
-  getHomepage(req, res) {
-    res.render('home', { showHeader: true, showFooter: true });
-  }
+  getHome = (req, res) => render(req, res, 'home');
+  getAboutUs = (req, res) => render(req, res, 'about-us');
 }
 
 module.exports = new SiteController();

@@ -107,7 +107,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     position: relative; }
   .header .announce-icon {
     font-size: 2.4rem;
-    display: none;
+    display: block;
     margin-right: 4rem;
     position: relative; }
     .header .announce-icon.has-noti::after {
@@ -119,8 +119,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       height: 1rem;
       background-color: #ff7971;
       border-radius: 50%; }
-  .header .announce-icon.noti-active + .announce-list {
-    display: flex; }
   .header .announce-list {
     display: none;
     flex-direction: column;
@@ -134,12 +132,14 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     padding: 0.5rem; }
     .header .announce-list .announce-link {
       display: inline-block;
-      background-color: #f6f6f6;
       padding: 0.4rem;
       position: relative;
       border: 0.4rem solid #fff;
+      border-bottom: 0.1rem solid #ccc;
       padding: 1rem; }
-      .header .announce-list .announce-link::before {
+    .header .announce-list .announce-link.unread {
+      background-color: #f6f6f6; }
+      .header .announce-list .announce-link.unread::before {
         content: '';
         width: 1.5rem;
         height: 1.5rem;
@@ -148,7 +148,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         top: 1rem;
         right: 1rem;
         border-radius: 50%; }
-      .header .announce-list .announce-link:hover {
+      .header .announce-list .announce-link.unread:hover {
         background-color: #e9e9e9; }
     .header .announce-list .announce-title {
       font-size: 2rem;
@@ -160,8 +160,10 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     .header .announce-list .announce-date {
       font-size: 1.4rem;
       text-align: end; }
+  .header .announce-icon.noti-open + .announce-list {
+    display: flex; }
   .header .user-profile-btn {
-    display: none;
+    display: flex;
     align-items: center;
     font-size: 2rem;
     color: #fff;
@@ -169,13 +171,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     .header .user-profile-btn .user-avatar {
       font-size: 3rem;
       margin-right: 1rem; }
-  .header .logged-in .btn-log-in,
-  .header .logged-in .btn-sign-up {
-    display: none; }
-  .header .logged-in .announce-icon {
-    display: block; }
-  .header .logged-in .user-profile-btn {
-    display: flex; }
 
 .search-bar {
   position: relative; }
@@ -457,7 +452,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
   padding-left: 0%;
   padding-right: 0%;
   height: 100%;
-  background-color: #C8DAE4; }
+  background-color: #c8dae4; }
   .account-profile-main .row .col-3 .avatar {
     width: 100%;
     height: 10.5%;
@@ -1051,19 +1046,15 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
   margin-top: 14rem;
   max-width: 108rem; }
   .all-product .sort-section {
-    margin-top: 2.5rem;
-    margin-right: 0.75rem;
-    background-color: #fff; }
-    .all-product .sort-section .dropdown {
-      background-color: #fff; }
-      .all-product .sort-section .dropdown button, .all-product .sort-section .dropdown ul li {
-        height: 4rem;
-        width: 20rem;
-        font-size: 1.6rem; }
+    margin-top: 2.5rem; }
+    .all-product .sort-section .form-select {
+      margin-top: 2rem;
+      width: 26rem;
+      height: 4rem;
+      font-size: 1.6rem;
+      box-shadow: 2px 2px 3px rgba(49, 56, 62, 0.3); }
   .all-product .filter-vs-product {
-    position: relative;
-    padding-top: 2.5rem;
-    height: 85rem; }
+    padding-top: 2.5rem; }
     .all-product .filter-vs-product .filter-section {
       background-color: #d9edf7; }
       .all-product .filter-vs-product .filter-section .search-bar {
@@ -1081,8 +1072,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
           font-size: 1.6rem;
           position: absolute;
           right: 1rem;
-          top: 2rem;
-          background-color: #fff; }
+          top: 2rem; }
           .all-product .filter-vs-product .filter-section .search-bar .search-icon-link .search-icon::before {
             color: #31383e; }
       .all-product .filter-vs-product .filter-section .price-filter .slider {
@@ -1117,8 +1107,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         .all-product .filter-vs-product .filter-section .filter-type-list .type-item a {
           display: inline-block; }
         .all-product .filter-vs-product .filter-section .filter-type-list .type-item a .type-name {
-          color: #31383e;
-          text-transform: capitalize; }
+          color: #31383e; }
         .all-product .filter-vs-product .filter-section .filter-type-list .type-item .number {
           color: #31383e; }
     .all-product .filter-vs-product .product-section .trend {
@@ -1147,7 +1136,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         margin-bottom: 1rem; }
       .all-product .filter-vs-product .product-section .trend .trend-card-img {
         background-color: #fff;
-        height: 24.3rem; }
+        height: 100%; }
         .all-product .filter-vs-product .product-section .trend .trend-card-img .trend-prod-img {
           float: left;
           height: 100%;
@@ -1157,10 +1146,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
         font-family: Inter;
         font-size: 1.5rem;
         font-weight: 500;
-        padding: 0 0.5rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 4.5rem; }
+        padding: 0 0.5rem; }
       .all-product .filter-vs-product .product-section .trend .trend-card-price {
         text-align: center;
         color: #000;
@@ -1193,11 +1179,8 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
           color: #fff;
           background-color: #337ab7; }
     .all-product .filter-vs-product .pagination-container {
-      position: absolute;
       width: 25rem;
-      margin: 2rem auto;
-      bottom: 0%;
-      right: 26%; }
+      margin: 2rem auto; }
       .all-product .filter-vs-product .pagination-container .pagination {
         margin-bottom: 0.6rem; }
 
@@ -1287,14 +1270,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     .sales-page .manage-order .modal.product-details .modal-dialog .modal-footer .btn-secondary {
       background-color: #3b99d7; }
 
-.form-group.invalid .form-control {
-  border-style: solid;
-  border-color: #f33a58; }
-
-.form-group.invalid .form-message {
-  color: #f33a58;
-  font-size: 1.2rem; }
-
 .disabled {
   pointer-events: none; }
   .disabled ::placeholder {
@@ -1315,15 +1290,22 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
   justify-content: end;
   margin-top: 5rem; }
   .register button {
-    background-color: #3b99d7;
-    height: 50%;
-    color: rgba(0, 0, 0, 0.426);
-    font-weight: bold;
-    font-size: 1.5rem; }
+    width: 15rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    padding: 1rem 0rem;
+    transition: all 0.3s;
+    text-align: center;
+    margin-top: 2rem;
+    margin-right: 1rem;
+    background-color: var(--dark-blue);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 0.1rem solid black; }
     .register button:hover {
-      background-color: #337ab7;
-      box-shadow: none;
-      color: white; }
+      background-color: var(--light-blue);
+      color: black; }
 
 .contract-container {
   margin-left: 0.5rem;
@@ -1445,15 +1427,22 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       display: flex;
       justify-content: end; }
       .account-profile-main .row .col-9 .save-changes button {
-        background-color: #3b99d7;
-        height: 50%;
-        color: rgba(0, 0, 0, 0.437);
-        font-weight: bold;
-        font-size: 1.5rem; }
+        width: 15rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        border-radius: 0.5rem;
+        padding: 1rem 0rem;
+        transition: all 0.3s;
+        text-align: center;
+        margin-top: 2rem;
+        margin-right: 1rem;
+        background-color: var(--dark-blue);
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        border: 0.1rem solid black; }
         .account-profile-main .row .col-9 .save-changes button:hover {
-          background-color: #337ab7;
-          box-shadow: none;
-          color: white; }
+          background-color: var(--light-blue);
+          color: black; }
 
 .flex-between {
   display: flex;
@@ -1776,11 +1765,11 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     width: 5rem; }
 
 :root {
-  --grey: #F6F6F6;
+  --grey: #f6f6f6;
   --dark-grey: #dedede;
   --input-text: #6b6b6b;
   --dark-blue: #337ab7;
-  --light-blue: #D9EDF7; }
+  --light-blue: #d9edf7; }
 
 .error-message {
   color: red; }
@@ -1788,10 +1777,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 .sign-up {
   margin-left: auto;
   margin-right: auto;
-  padding-left: 320px;
-  padding-right: 320px;
-  padding-top: 210px;
-  padding-bottom: 210px; }
+  padding: 20rem 32rem 10rem 32rem; }
   .sign-up .su-header {
     font-weight: 600;
     font-size: 5rem; }
@@ -1863,7 +1849,7 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
 .sign-in {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 21rem;
+  padding-top: 18.5rem;
   margin-bottom: 7rem;
   display: flex;
   flex-direction: column;
@@ -1906,3 +1892,25 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
       text-decoration: underline; }
   .sign-in .si-form > *:not(:last-child) {
     margin-bottom: 2.5rem; }
+
+.about-us {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 21rem;
+  margin-bottom: 7rem;
+  font-size: 2.5rem; }
+  .about-us .au-box {
+    margin-bottom: 7rem;
+    padding-left: 7rem;
+    padding-right: 7rem;
+    padding-bottom: 2rem;
+    background-color: var(--grey);
+    background: linear-gradient(180deg, white 3.2rem, var(--grey) 0%); }
+  .about-us .au-header {
+    font-weight: 600;
+    font-size: 5rem;
+    padding-bottom: 2rem; }
+  .about-us p {
+    margin-bottom: 2rem; }
+  .about-us p :last-child {
+    margin-bottom: 0rem; }
