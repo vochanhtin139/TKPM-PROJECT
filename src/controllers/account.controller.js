@@ -159,16 +159,8 @@ class acccountController {
     // Account.updateOne({_id: req.params._id}, req.body);
     console.log(req.body);
     const accountId = req.params._id;
-    const user = await Account.findById(accountId);
-
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.address = req.body.address;
-    user.email = req.body.email;
-    user.phone = req.body.phone;
-    user.job = req.body.job;
-    await user.save();
     try {
+      const user = await Account.findById(accountId);
   
       // Check if the present password matches the one in the database
       const isPasswordValid = await bcrypt.compare(req.body.presentPassword, user.password);
@@ -181,7 +173,12 @@ class acccountController {
       const hashedNewPassword = await bcrypt.hash(req.body.newPassword, 10);
       user.password = hashedNewPassword;
       // console.log(user);
-      
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.address = req.body.address;
+      user.email = req.body.email;
+      user.phone = req.body.phone;
+      user.job = req.body.job;
   
       // Save the updated user data to the database
       await user.save();
@@ -191,6 +188,22 @@ class acccountController {
     } catch (err) {
       next(err);
     }
+    // Account.updateOne({_id: req.params._id}, req.body)
+    //   .then(() => res.redirect(`/account/my-profile/${req.params._id}`))
+    //   .catch(next);
+  }
+
+
+  getTestPost = async (req, res, next) => {
+    try {
+      res.render('test-profile');
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  postData(req, res, next){
+    res.json(req.body);
     // Account.updateOne({_id: req.params._id}, req.body)
     //   .then(() => res.redirect(`/account/my-profile/${req.params._id}`))
     //   .catch(next);
@@ -228,71 +241,17 @@ class acccountController {
   };
 
   // [GET] account/become-seller
-  // getBecomeSeller(req, res, next) {
-  //   // res.send('my account');
-  //   Account.findOne({_id: req.params._id})
-  //     .then(user => {
-  //       res.render('become_seller', {
-  //         user: mongooseToObject(user)
-  //       });
+  getBecomeSeller(req, res, next) {
+    // res.send('my account');
+    Account.findOne({_id: req.params._id})
+      .then(user => {
+        res.render('become_seller', {
+          user: mongooseToObject(user)
+        });
         
-  //     })
-  //     .catch(next);
-  // };
-
-  getBecomeSeller = async (req, res, next) => {
-    try {
-      const accountId = req.params._id;
-      const user = await Account.findById(accountId);
-      console.log(user);
-  
-      if (user.requestStatus === 'Become-seller') {
-        if (user.accountStatus === 'Pending') {
-          // Yêu cầu trở thành người bán đã gửi và tài khoản chưa được chấp thuận
-          return res.render('become_seller-pending', {
-            user: mongooseToObject(user),
-            // processingMessage: 'Your request is being processed. Please wait for approval.',
-          });
-        } else{
-          // Yêu cầu trở thành người bán đã gửi và tài khoản đã được chấp thuận
-          return res.render('become_seller', {
-            user: mongooseToObject(user),
-            approvedMessage: 'Congratulations! You have been approved as a seller.',
-          });
-        }
-      }
-  
-      // Ngược lại, hiển thị trang trở thành người bán với thông tin hồ sơ của người dùng để cập nhật thông tin và yêu cầu trở thành người bán
-      res.render('become_seller', {
-        user: mongooseToObject(user),
-      });
-    } catch (err) {
-      next(err);
-    }
+      })
+      .catch(next);
   };
-  
-
-  registerSeller= async (req, res, next) =>{
-    // res.json(req.body);
-    // Account.updateOne({_id: req.params._id}, req.body);
-    // console.log(req.body);
-    // res.json(req.body);
-    try {
-      const accountId = req.params._id;
-      const user = await Account.findById(accountId);
-  
-      user.requestStatus = 'Become-seller';
-      user.accountStatus = 'Pending';
-      user.address = req.body.address;
-      user.job = req.body.job;
-      await user.save();
-  
-     
-      res.redirect(`/account/become-seller/${req.params._id}`);
-    } catch (err) {
-      next(err);
-    }
-  }
 
 
 }

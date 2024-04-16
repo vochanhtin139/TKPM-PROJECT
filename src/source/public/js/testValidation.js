@@ -50,9 +50,9 @@ function validateForm(event) {
     clearErrorField(lastName);
   });
 
-  // address.addEventListener('input', function () {
-  //   clearErrorField(address);
-  // });
+  address.addEventListener('input', function () {
+    clearErrorField(address);
+  });
 
   email.addEventListener('input', function () {
     clearErrorField(email);
@@ -62,9 +62,9 @@ function validateForm(event) {
     clearErrorField(phone);
   });
 
-  // job.addEventListener('input', function () {
-  //   clearErrorField(job);
-  // });
+  job.addEventListener('input', function () {
+    clearErrorField(job);
+  });
 
   // Perform validation checks
   if (firstName.value.trim() === '') {
@@ -79,11 +79,11 @@ function validateForm(event) {
     return;
   }
 
-  // if (address.value.trim() === '') {
-  //   showErrorField(address);
-  //   address.focus();
-  //   return;
-  // }
+  if (address.value.trim() === '') {
+    showErrorField(address);
+    address.focus();
+    return;
+  }
 
   if (email.value.trim() === '') {
     showErrorField(email);
@@ -97,11 +97,11 @@ function validateForm(event) {
     return;
   }
 
-  // if (job.value.trim() === '') {
-  //   showErrorField(job);
-  //   job.focus();
-  //   return;
-  // }
+  if (job.value.trim() === '') {
+    showErrorField(job);
+    job.focus();
+    return;
+  }
 
   // You can add more specific validation checks for each field if needed,
   // e.g., check if the email is in a valid format or the phone number is numeric.
