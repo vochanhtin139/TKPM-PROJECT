@@ -64,22 +64,28 @@
                     {{#each this.detail}}
                 <div class="card">
                     <div class="card-header alert alert-success" role="alert">
-                        SHOP NAME
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        {{../this.idSeller.shopName}}
                     </div>
                     <div class="card-body">
                         <div class="contain position-relative">
                             <div class="left">
                                 <img src="{{this.idProduct.image}}" class="img-fluid rounded-start" alt="...">
                             </div>
-                            <div class="middle">
+                            <div class="middle position-relative">
                                 <div class="card-body">
                                     <h2 class="card-title fw-bold">{{this.idProduct.name}}</h2>
                                     <p class="card-text fs-5 fw-light">This is a wider card with supporting text below as a natural
                                         lead-in to additional
                                         content. This content is a little bit longer.</p>
-                                    <p class="card-text"><small class="text-muted fw-bolder">Price: {{this.idProduct.price}} VND.</small></p>
-                                    <p class="card-text"><small class="text-muted fw-bolder">Quantity: x{{this.quantity}}</small></p>
-                                    <p class="card-text position-absolute bottom-0 end-0"><small class="text-muted fs-2 fw-bold">TOTAL: {{this.quantity}}</small></p>
+                                    <p class="card-text"><small class="text-muted fw-bolder">Price: {{formatCurrency this.idProduct.price}}</small></p>
+                                    <p class="card-text"><small class="text-muted fw-bolder">Quantity:  x{{this.quantity}}</small></p>
+                                    <p class="card-text position-absolute bottom-0 end-0">
+                                        <small class="text-muted fs-2 fw-bold">TOTAL: {{formatCurrency (calculateTotalPrice this.idProduct.price this.quantity)}}</small></p>
+                                    <p class="card-text position-absolute bottom-0 start-0">
+                                        <small class="text-muted order-date">Date:
+                                            {{dateOfOrder ../this.date}}
+                                        </small></p>
                                 </div>
                             </div>
                         </div>
