@@ -2,7 +2,6 @@
   margin-top: 14rem;
 
   .manage-order {
-    height: 65rem;
     .page-title {
       padding: 2rem 0;
       text-transform: uppercase;
@@ -125,8 +124,7 @@
                   }
                 }
               }
-
-              .message {
+              .message{
                 font-family: Inter;
               }
             }
@@ -135,13 +133,10 @@
 
         .modal-footer {
           button {
-            width: 9rem;
-            height: 3.5rem;
-            text-align: center;
-            font-size: 1.6rem;
+            width: 10rem;
+            height: 4rem;
             text-align: center;
           }
-
 
           .btn-success {
             background-color: #1a9781;

@@ -15,7 +15,7 @@ const redisClient = createClient({
   url: 'redis://127.0.0.1:6379',
 });
 
-// redisClient.connect().catch(console.error);
+redisClient.connect().catch(console.error);
 
 const liveReloadServer = livereload.createServer();
 const app = express();
@@ -31,6 +31,8 @@ app.use(connectLiveReload());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 // Template engines handlebars
@@ -41,6 +43,7 @@ app.engine(
     helpers: require('../helpers/handlebars'),
   })
 );
+
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
@@ -66,10 +69,10 @@ app.use(passport.session());
 app.use(flash());
 
 // Middleware khoi tao
-// app.use((req, res, next) => {
-//   res.locals.isLoggedIn = req.isAuthenticated(); // Check nguoi dung dang nhap hay chua
-//   next();
-// });
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = req.isAuthenticated(); // Check nguoi dung dang nhap hay chua
+  next();
+});
 
 // ROUTES INIT
 route(app);

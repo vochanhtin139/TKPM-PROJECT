@@ -10,8 +10,6 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A product must have a name'],
       trim: true,
-      maxlength: 50,
-      minlength: 5,
     },
     price: {
       type: Number,
@@ -28,8 +26,8 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: 'Document',
-      enum: ['Document', 'Calculator', 'Uniform', 'Other'],
+      default: 'document',
+      enum: ['document', 'calculator', 'uniform', 'other'],
     },
     image: {
       type: String,
@@ -37,8 +35,8 @@ const productSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Pending',
-      enum: ['Available', 'Pending', 'Reported', 'Banned'],
+      default: 'pending',
+      enum: ['available', 'pending', 'reported', 'banned'],
     },
     isTrend: {
       type: Boolean,

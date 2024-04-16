@@ -1,8 +1,6 @@
 const Product = require('../models/product.model');
 const fs = require('fs');
 const Evaluate = require('../models/evaluate.model');
-const Account = require('../models/account.model');
-
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
 
@@ -30,9 +28,56 @@ class productController {
   // [GET] product/manage
   getManage = async (req, res, next) => {
     try {
-      const products = await Product.find();
+      console.log(req.query);
+      let options = {};
+      // Tìm kiếm
+      let keyword = req.query.keyword || '';
+      // Lọc theo loại
+      let category = req.query.category || '';
+      // Sắp xếp
+      let sortBy = req.query.sortBy || '';
+      keyword = keyword.trim();
+      let originalUrl = req.originalUrl;
+      if (keyword != '') {
+        const regex = new RegExp(keyword, 'i');
+        options.name = regex;
+        originalUrl = removeParam('keyword', originalUrl);
+      }
+      console.log(originalUrl);
+      if (category != '') {
+        options.category = category;
+        originalUrl = removeParam('category', originalUrl);
+      }
+      console.log(originalUrl);
+      if (sortBy != '') {
+        originalUrl = removeParam('sortBy', originalUrl);
+      }
+      console.log(originalUrl);
+      // Phân trang
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const limit = 5;
+      // Thực hiện truy vấn
+      let products = await Product.find(options)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort(sortBy);
+      res.locals._keyword = keyword;
+      res.locals._category = category;
+      res.locals._sortBy = sortBy;
+      res.locals._numberOfItems = await Product.find(options).countDocuments();
+      res.locals._limit = limit;
+      res.locals._currentPage = page;
+      res.locals._originalUrl = originalUrl;
+      // console.log(res.locals);
       res.render('manage-product', {
         products: mutipleMongooseToObject(products),
+        helpers: {
+          isEqual(c1, c2) {
+            return c1 == c2;
+          },
+        },
       });
     } catch (err) {
       next(err);
@@ -111,15 +156,26 @@ class productController {
       next(err);
     }
   };
+
+  // [POST] product/delete/:id
+  deleteProduct = async (req, res, next) => {
+    try {
+      console.log(req.query);
+      const product = await Product.findById(req.params.id);
+      if (product.image != '/img/products/default.png') {
+        fs.unlinkSync(`./source/public${product.image}`);
+      }
+      await Product.deleteOne({ _id: req.params.id });
+      res.redirect(
+        `/product/manage?page=${req.query.page ? req.query.page : ''}`
+      );
+    } catch (err) {
+      next(err);
+    }
+  };
   // ###########################################################
   // ###################### BUYER #############################
-  // getAllProduct = async (req, res, next) => {
-  //   res.render('all-product');
-  // };
-  // getAProduct = async (req, res, next) => {
-  //   res.render('specific-product');
-  // };
-  getCart = {};
+  // getCart = {};
   add2Cart = async (req, res, next) => {
     // Lấy id và quantity sản phẩm gửi từ client
     let id = req.body.id ? req.body.id : '';
@@ -155,7 +211,7 @@ class productController {
   filterProduct = async (req, res, next) => {
     try {
       const type = req.query.category; //? req.query.category : 0
-      // console.log(type);
+      console.log(type);
       const products = await Product.find({ category: type });
       const categories = await Product.aggregate([
         {
@@ -182,7 +238,7 @@ class productController {
     try {
       const type = req.query.sort;
       const order = req.query.order;
-      // console.log(type, order);
+      console.log(type, order);
       const products = await Product.find({}).sort({ [type]: order });
 
       const categories = await Product.aggregate([
@@ -241,13 +297,6 @@ class productController {
 
       const product = await Product.findOne({ _id: productId });
       const details = product.description.split(';');
-      const evaluates = await Evaluate.find({idProduct: productId})
-      .populate({
-        path: 'idAccount',
-        select: 'firstName lastName avatar'
-      })
-      .sort({ date: -1 })
-      
       const stars = await Evaluate.aggregate([
         {
           $match: {
@@ -269,34 +318,59 @@ class productController {
         },
         { $limit: 6 },
       ]);
+      const evaluates = await Evaluate.aggregate([
+        {
+          $match: {
+            idProduct: productId,
+          },
+        },
+      ]);
+
+      // res.json(evaluates)
 
       res.locals.details = details;
       res.locals.product = mongooseToObject(product);
       res.locals.stars = stars[0];
       res.locals.related = related;
-      res.locals.evaluates = mutipleMongooseToObject(evaluates);
 
       res.render('specific-product');
+      // console.log(stars, product)
 
+      // var a = mongooseToObject(details)
+      // res.json({product, a})
     } catch (error) {
       res.status(500).json({ error: 'Lỗi khi lấy tất cả sản phẩm 3' });
     }
   };
 
   // [PUT] product/specific-product/:id/report
-  reportProduct = async (req, res, next) => {
-    try {
-      const productId = req.params.id;
-			await Product.updateOne({ _id: productId }, { $set: { status: 'Reported' } });
-			res.redirect('back');
-    } catch (error) {
-      res.status(500).json({ error: 'Lỗi khi lấy tất cả sản phẩm 3' });
-    }
-  }
+  // reportProduct = async (req, res, next) => {
+  //   try {
+  //     Course.updateOne({ _id: req.params.id }, {})
+  //       .then(() => {
+  //           res.redirect('back');
+  //       })
+  //       .catch(next);
+
+  //     // res.json({related, related})
+
+  //     // res.locals.details = details
+  //     // res.locals.product = mongooseToObject(product)
+  //     // res.locals.stars = stars[0]
+  //     // res.locals.related = related
+
+  //     res.render('specific-product')
+  //     // console.log(stars, product)
+
+  //     // var a = mongooseToObject(details)
+  //     // res.json({product, a})
+  //   } catch (error) {
+  //     res.status(500).json({ error: 'Lỗi khi lấy tất cả sản phẩm 3' });
+  //   }
+  // }
 }
 
-// Auxiliary
-
+// ***************************** Helper function *******************************
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split('?')[0],
     param,

@@ -7,19 +7,14 @@
     </div>
     <div class='col-6 details-item'>
       <div class='intro'>
-        <form class='report-section' method='POST'
-          action='/product/specific-product/{{product._id}}/report?_method=PUT'>
+        <form
+          class='report-section'
+          method='POST'
+          action='/product/specific-product/{{product._id}}/report?_method=PUT'
+        >
           <i class='fa-solid fa-ellipsis'></i>
           <button>Report</button>
         </form>
-
-        {{!-- <form class="button-container">
-          <button class="ellipse-button">
-            <span class="ellipse-icon">&#8942;</span>
-          </button>
-          <div class="tooltip">Report</div>
-        </form> --}}
-
         <h1 class='product-name'>{{product.name}}
           ksa dasl dals dlas kdlas dlaksdl</h1>
         <h2 class='product-price'>{{product.price}}đ</h2>
@@ -38,9 +33,10 @@
       <div class='details-product'>
         <span>Details:</span>
         <ul class='details-list mt-3'>
-          {{#each details}}
-          <li>{{this}}</li>
-          {{/each}}
+          <li>Name: {{accessArr details 0}}</li>
+          <li>Author: {{accessArr details 1}}</li>
+          <li>Publisher: {{accessArr details 2}}</li>
+          <li>Version: {{accessArr details 3}}</li>
         </ul>
       </div>
 
@@ -67,7 +63,7 @@
   </div>
 
   <div class='row comment-section'>
-    <div class='comment-item'>
+    <div class='col comment-item'>
       <section class='trend container'>
         <div class='row'>
           <div class='rectangle col'></div>
@@ -76,57 +72,56 @@
         </div>
       </section>
 
-      <form class='write-cmt d-flex mt-3 align-items-center' method='POST'
-            action='/evaluate/specific-product/{{product._id}}/create'>
-        <textarea name='cmtInput' id='write-cmt-input' cols='60' rows='2' placeholder='Write to comment...'></textarea>
+      <div class='write-cmt d-flex mt-3 align-items-center'>
+        <textarea
+          name=''
+          id=''
+          cols='60'
+          rows='2'
+          placeholder='Write to comment...'
+        ></textarea>
         <div class='send-btn btn'>
-          <button>
+          <a href=''>
             <i class='fa-solid fa-paper-plane'></i>
-          </button>
+          </a>
         </div>
-      </form>
+      </div>
 
-      <div class="comment-main mt-3" data-id="{{@index}}">
-        {{#each evaluates}}
-        <div class='comment-user'>
-          <form class='report-section' method='POST'
-            action='/evaluate/specific-product/{{this._id}}/report?_method=PUT'>
-            <i class='fa-solid fa-ellipsis'></i>
-            <button>Report</button>
-          </form>
-
-          <div class='information d-flex align-items-center'>
-            <div class='avatar'>
-              <a href='#'>
-                <img class='img-avatar' src='{{this.idAccount.avatar}}' alt='error' />
-              </a>
-            </div>
-            <div class='infor-span ms-3'>
-              <span class='name'>{{this.idAccount.lastName}} {{this.idAccount.firstName}}</span>
-              <div class='date mt-1'>{{convertDate this.date}}</div>
-            </div>
-            <div class='stars ms-4'>
-              <i class='fa-solid fa-star'></i>
-              <i class='fa-solid fa-star'></i>
-              <i class='fa-solid fa-star'></i>
-              <i class='fa-solid fa-star'></i>
-              <i class='fa-solid fa-star'></i>
-            </div>
+      <div class='comment-details mt-3'>
+        <div class='information d-flex align-items-center'>
+          <div class='avatar'>
+            <a href='#'>
+              <img class='img-avatar' src='/img/product-2.jpg' alt='error' />
+            </a>
           </div>
-          <div class='comment-info'>
-            {{this.content}}
+          <div class='infor-span ms-3'>
+            <span class='name'>Nguyễn Văn A</span>
+            <div class='date mt-1'>20:21 19/06/2020</div>
+          </div>
+          <div class='stars ms-4'>
+            <i class='fa-solid fa-star'></i>
+            <i class='fa-solid fa-star'></i>
+            <i class='fa-solid fa-star'></i>
+            <i class='fa-solid fa-star'></i>
+            <i class='fa-solid fa-star'></i>
           </div>
         </div>
-        <div class='reply-from-seller mt-3'>
-          Seller: {{this.reply}}
+        <div class='comment-info'>
+          The book delivered quite quickly, carefully packed, and also gave a
+          cheaper memo paper at the original price but the quality is very good.
+          Everyone should buy it. The product is worth the money, the shop is
+          very enthusiastic to advise customers.
         </div>
-        {{/each}}
+      </div>
+
+      <div class='reply-from-seller mt-3'>
+        Seller: Thank you!
+      </div>
+
+      <div class='d-flex justify-content-center align-items-center'>
+        <a href='#' class='extra-view-btn btn'>More</a>
       </div>
     </div>
-    {{>pagination}}
-    {{!-- <div class='d-flex justify-content-center align-items-center'>
-      <a href='#' class='extra-view-btn btn'>More</a>
-    </div> --}}
     <hr />
   </div>
 
@@ -138,16 +133,23 @@
     </div>
     <div class='trend-row row'>
       {{#each related}}
-      <div class='col-2'>
-        <figure class='trend-card card'>
-          <a href='/product/specific-product/{{this._id}}' class='trend-card-img'>
-            <img src='{{this.image}}' class='trend-prod-img' alt='Something ...' />
-          </a>
-          <p class='trend-card-title'>{{this.name}}</p>
-          <p class='trend-card-price'>{{this.price}} VND</p>
-          <a href='#' class='btn trend-card-btn'>Buy now</a>
-        </figure>
-      </div>
+        <div class='col-2'>
+          <figure class='trend-card card'>
+            <a
+              href='/product/specific-product/{{this._id}}'
+              class='trend-card-img'
+            >
+              <img
+                src='{{this.image}}'
+                class='trend-prod-img'
+                alt='Something ...'
+              />
+            </a>
+            <p class='trend-card-title'>{{this.name}}</p>
+            <p class='trend-card-price'>{{this.price}} VND</p>
+            <a href='#' class='btn trend-card-btn'>Buy now</a>
+          </figure>
+        </div>
       {{/each}}
     </div>
   </section>
