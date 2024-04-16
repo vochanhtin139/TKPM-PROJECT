@@ -67,14 +67,3 @@ Comment {
 	"$reply":
 	"$rating":
 }
-
-getAProduct
-getAllProduct
-searchProduct
-sortProduct
-filterProduct
-reportProduct
-searchByCategory
-searchByKeyword
-
-
