@@ -88,15 +88,17 @@ class acccountController {
         // Get the account ID from the logged-in user
         const accountId = user._id; // Adjust this to match your account model field name
         req.session.cart = cart;
-
         // Append the account ID as a slug to the "reqUrl"
-        const redirectUrl = `${reqUrl}/${accountId}`;
+        if (reqUrl == "/account/my-profile") {
+          reqUrl = `${reqUrl}/${accountId}`;
+        }
         req.session.cookie.maxAge = keepSignedIn ? 24 * 60 * 60 * 1000 : null;
-        return res.redirect(redirectUrl);
+        return res.redirect(reqUrl);
       });
     })(req, res, next);
   };
 
+  // Authentication and Authorization
   isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
@@ -108,7 +110,18 @@ class acccountController {
     if (req.user.role == "Admin") {
       return next();
     }
-    // res.locals
+    res.status(404).render("error", {
+      message: "You don't have permission!",
+    });
+  };
+
+  isSeller = (req, res, next) => {
+    if (req.user.role == "Seller") {
+      return next();
+    }
+    res.status(404).render("error", {
+      message: "You don't have permission!",
+    });
   };
 
   // [GET] account/sign-out
