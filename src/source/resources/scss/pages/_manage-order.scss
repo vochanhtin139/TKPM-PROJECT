@@ -2,12 +2,12 @@
   margin-top: 14rem;
 
   .manage-order {
-    height: 65rem;
+    min-height: 65rem;
+    padding: 1rem 2rem;
     .page-title {
       padding: 2rem 0;
-      text-transform: uppercase;
       font-size: 2rem;
-      font-weight: 700;
+      font-weight: 500;
     }
 
     .table {
@@ -142,7 +142,6 @@
             text-align: center;
           }
 
-
           .btn-success {
             background-color: #1a9781;
           }
@@ -156,6 +155,13 @@
           }
         }
       }
+    }
+
+    .announcement {
+      justify-content: center;
+      display: flex;
+      margin-top: 3rem;
+      font-size: 1.6rem;
     }
   }
 }

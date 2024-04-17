@@ -1,16 +1,16 @@
-const Product = require('../models/product.model');
+const Product = require("../models/product.model");
 const {
   mutipleMongooseToObject,
   mongooseToObject,
-} = require('../utils/mongoose');
+} = require("../utils/mongoose");
 class siteController {
   // [GET] /
   getHome = async (req, res, next) => {
     try {
       const products = await Product.find({ isTrend: true })
         .limit(6)
-        .sort('timestamps: -1');
-      res.render('home', {
+        .sort("timestamps: -1");
+      res.render("home", {
         products: mutipleMongooseToObject(products),
       });
     } catch (err) {
@@ -20,7 +20,7 @@ class siteController {
 
   getAboutUs = (req, res, next) => {
     try {
-      res.render('about-us');
+      res.render("about-us");
     } catch (err) {
       next(err);
     }

@@ -2,12 +2,14 @@
 // Extended classes
 .container-ext {
   background-color: $color-white;
-  margin-top: 17rem;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
 }
 
 .breadcrumb-ext {
   font-size: $font-size-quaternary;
   line-height: 3.6rem;
+  font-weight: 500;
 }
 
 .content-ext {
@@ -15,13 +17,14 @@
   margin: 2rem 0;
   border: 0.1rem solid $color-border;
   font-size: $font-size-secondary;
+  min-height: 60rem;
 }
 
 .select-container-ext {
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     @include abs-pos(50%, 2rem);
     transform: translateY(-50%);
     border: 0.6rem solid transparent;

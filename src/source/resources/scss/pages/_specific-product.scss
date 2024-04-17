@@ -31,6 +31,7 @@
     }
 
     .details-item {
+      font-family: "Inter", sans-serif;
       .intro {
         position: relative;
         .report-section {
@@ -47,7 +48,7 @@
 
           button {
             display: none;
-            background-color: rgba($color: #3B99D7, $alpha: 0.7);
+            background-color: rgba($color: #3b99d7, $alpha: 0.7);
             border-radius: 5px;
             width: 6.8rem;
             height: 3.3rem;
@@ -64,10 +65,10 @@
           font-size: 3rem;
           font-weight: 700;
           margin-bottom: 1rem;
-          max-width: 35rem;
           max-height: 7.2rem;
           overflow: hidden;
           text-overflow: ellipsis;
+          max-width: 40rem;
         }
 
         .product-price {
@@ -136,8 +137,9 @@
           width: 16rem;
           padding: 1rem 0;
           text-transform: uppercase;
-          background: #D2E6EF;
+          background: #d2e6ef;
           color: #000;
+          font-family: $font-family-primary;
 
           &:hover {
             border-radius: 0.5rem;
@@ -152,6 +154,7 @@
           padding: 1rem 0;
           background: $color-primary-shade;
           color: #fff;
+          font-family: $font-family-primary;
         }
       }
     }
@@ -219,17 +222,17 @@
             flex-direction: column;
             align-items: flex-end;
             cursor: pointer;
-  
+
             button {
               display: none;
-              background-color: rgba($color: #3B99D7, $alpha: 0.7);
+              background-color: rgba($color: #3b99d7, $alpha: 0.7);
               border-radius: 5px;
               width: 6.8rem;
               height: 3.3rem;
               font-size: 1.5rem;
               transition: all 0.6s ease;
             }
-  
+
             &:hover button {
               display: block;
             }
@@ -253,13 +256,14 @@
                 font-weight: 600;
               }
 
-              .date {}
+              .date {
+              }
             }
           }
 
           .comment-info {
             margin-top: 1rem;
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
           }
         }
 
@@ -268,7 +272,7 @@
           border-radius: 1rem;
           padding: 1.5rem 2rem;
           margin-left: 6rem;
-          font-family: 'Inter', sans-serif;
+          font-family: "Inter", sans-serif;
           margin-bottom: 2rem;
         }
       }
@@ -276,7 +280,6 @@
       .pagination-container {
         margin-top: 4rem;
       }
-
     }
 
     .extra-view-btn {

@@ -13,7 +13,7 @@
             <i class='fa-solid fa-magnifying-glass search-icon'></i>
           </a> --}}
           <form class='search-bar pt-3 align-items-center' action="/product/all-product/search">
-            <input type='text' class='search-input col p-4' placeholder='Search...' name="keyword" required />
+            <input type='text' class='search-input col p-4' placeholder='Search...' name="keyword"/>
             <button class='search-icon-link'>
               <i class='fa-solid fa-magnifying-glass search-icon'></i>
               <button />
@@ -23,32 +23,8 @@
       <div class='col-4 d-flex align-items-center'>
         {{#if isLoggedIn}}
           <div class='announce-container ms-auto'>
-            <i class='fa-solid fa-bell announce-icon'></i>
+            <i class='fa-solid fa-bell announce-icon' onclick="getListAnnouncement()"></i>
             <ul class='announce-list'>
-              <li class='announce-item'>
-                <a href='#' class='announce-link'>
-                  <p class='announce-title text-capitalize'>Special Events</p>
-                  <p class='announce-description'>On the next month, we have
-                    some exciting events for loyal customers as a big thank !!!</p>
-                  <p class='announce-date'>Date: 20/07/2023 - 19:30:19</p>
-                </a>
-              </li>
-              <li class='announce-item'>
-                <a href='#' class='announce-link unread'>
-                  <p class='announce-title text-capitalize'>Special Events</p>
-                  <p class='announce-description'>On the next month, we have
-                    some exciting events for loyal customers as a big thank !!!</p>
-                  <p class='announce-date'>Date: 20/07/2023 - 19:30:19</p>
-                </a>
-              </li>
-              <li class='announce-item'>
-                <a href='#' class='announce-link'>
-                  <p class='announce-title text-capitalize'>Special Events</p>
-                  <p class='announce-description'>On the next month, we have
-                    some exciting events for loyal customers as a big thank !!!</p>
-                  <p class='announce-date'>Date: 20/07/2023 - 19:30:19</p>
-                </a>
-              </li>
             </ul>
           </div>
           <a
@@ -61,7 +37,8 @@
         <a class='btn btn-log-in text-uppercase ms-auto me-3' href='/account/sign-in' role='button'>sign in</a>
         <a class='btn btn-sign-up text-uppercase me-5' href='/account/sign-up' role='button'>sign up</a>
         {{/if}}
-        <i class='fa-solid fa-cart-shopping cart-icon'></i>
+        <i class='fa-solid fa-cart-shopping cart-icon' onclick="getCart()"></i>
+        <span class='badge badge-warning' id='lblCartCount'>{{_cartNumber}}</span>
       </div>
     </div>
   </div>
