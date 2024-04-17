@@ -19,11 +19,19 @@ class orderController {
     try {
       // const aOrder = await Account.findOne();
       // const accountId = aOrder._id
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const limit = 8;
       const accountId = req.user._id;
+      // console.log(accountId)
 
       const orders = await Order.find({ idSeller: accountId })
+        .sort({ date: -1 })
         .populate("idAccount")
-        .populate("detail.idProduct");
+        .populate("detail.idProduct")
+        .skip((page - 1) * limit)
+        .limit(limit);
       const orderObject = mutipleMongooseToObject(orders);
 
       var products = [];
@@ -32,18 +40,39 @@ class orderController {
         messages.push({ idOrder: i._id, message: i.message });
         for (var j of i.detail) {
           Object.assign(j, { idOrder: i._id });
-          var temp = [];
-          temp.push(j);
+          // var temp = [];
+          // temp.push(j);
           products.push(j);
         }
       }
+      res.locals._numberOfItems = await Order.find({ idSeller: accountId })
+        .populate("idAccount")
+        .populate("detail.idProduct")
+        .countDocuments();
+      res.locals._limit = limit;
+      res.locals._currentPage = page;
+
       res.locals.orders = orderObject;
       res.locals.products = products;
       res.locals.messages = messages;
+      // console.log(products)
+      // res.json({products})
 
       res.render("manage-order");
     } catch (error) {
       res.status(500).json({ error: "Lỗi khi lấy tất cả sản phẩm 1" });
+    }
+  };
+
+  // [POST] product/quantity
+  getQuantity = async (req, res, next) => {
+    try {
+      const orderId = req.body.id;
+      const order = await Order.find({ _id: orderId });
+      // console.log(order)
+      res.json(order);
+    } catch (error) {
+      res.status(500).json({ error: "Lỗi khi lấy tất cả sản phẩm 3" });
     }
   };
 
@@ -84,8 +113,8 @@ class orderController {
 
       res.locals.accBuyer = mongooseToObject(accBuyer);
       res.locals.product = mongooseToObject(product);
+      res.locals.quantity = req.query.quantity;
 
-      // console.log(res.locals.product);
       res.render("payment");
     } catch (error) {
       res.status(500).json({ error: "Lỗi khi lấy tất cả sản phẩm 1" });
@@ -95,9 +124,16 @@ class orderController {
   getPayForCart = async (req, res, next) => {
     try {
       // const productId = req.params.id;
-      const accBuyer = await Account.findOne({ _id: req.user.id }).populate(
-        "cart._id"
-      );
+      const accBuyer = await Account.findOne({ _id: req.user.id })
+      .populate({
+        path: "cart._id",
+        populate: {
+          path: "idAccount"
+        }
+      });
+      // .populate(
+      //   "cart._id"
+      // );
       // const product = await Product.findOne({ _id: req.params._id })
       // .populate('idAccount')
       // res.json(accBuyer)
@@ -133,7 +169,7 @@ class orderController {
         detail: [
           {
             idProduct: product._id,
-            quantity: 1,
+            quantity: req.query.quantity,
             isEvaluated: false,
           },
         ],
@@ -152,9 +188,11 @@ class orderController {
 
   placeOrderForCart = async (req, res, next) => {
     try {
-      const accBuyer = await Account.findOne({ _id: req.user.id }).populate(
+      const accBuyer = await Account.findOne({ _id: req.user.id })
+      .populate(
         "cart._id"
-      );
+      )
+      .populate("cart._id.idAccount");
 
       const orders = accBuyer.cart.map((cartItem) => {
         const idSeller = cartItem._id.idAccount;

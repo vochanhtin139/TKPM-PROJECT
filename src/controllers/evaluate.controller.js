@@ -50,11 +50,29 @@ class evaluateController {
   // [GET] /sales-page/review
   showEvaluate = async (req, res, next) => {
     try {
-      const idAccount = await Account.findOne({}); //***
+      // const idAccount = await Account.findOne({}); //***
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const limit = 4;
+
+      const idAccount = req.user._id; //***
       const evaluates = await Evaluate.find({
-        idAccount: idAccount,
         reply: "",
-      }).populate("idProduct");
+      })
+        .populate("idAccount")
+        .populate({
+          path: "idProduct",
+          match: { idAccount: idAccount }, // Điều kiện kiểm tra trên idProduct
+        })
+        .sort({ date: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+      res.locals._numberOfItems = await Product.find().countDocuments();
+      res.locals._limit = limit;
+      res.locals._currentPage = page;
+
       res.locals.evaluates = mutipleMongooseToObject(evaluates);
       res.render("review-shop");
     } catch (error) {
@@ -62,11 +80,13 @@ class evaluateController {
     }
   };
 
-  // [POST] /sales-page/:id/reply
+  // [POST] /evaluate/review/:id/reply
   replyEvaluate = async (req, res, next) => {
     try {
       const idEvaluate = req.params.id;
+      console.log(idEvaluate);
       const replyShop = req.body.reply;
+      console.log(replyShop);
       await Evaluate.updateOne(
         { _id: idEvaluate },
         { $set: { reply: replyShop } }
@@ -87,6 +107,7 @@ class evaluateController {
       const order = await Order.findOne({
         idAccount: accBuyer._id,
         "detail.idProduct": product._id,
+        "detail.isEvaluated": false,
       });
       const newEvaluate = new Evaluate({
         idAccount: accBuyer._id,
