@@ -24,6 +24,8 @@
 
         .img-product {
           width: 35rem;
+          // vertical-align: middle;
+          // object-fit:scale-down;
         }
       }
     }
@@ -47,7 +49,7 @@
 
           button {
             display: none;
-            background-color: $color-primary;
+            background-color: rgba($color: #3b99d7, $alpha: 0.7);
             border-radius: 5px;
             width: 8.5rem;
             height: 3.3rem;
@@ -61,7 +63,7 @@
             display: none;
             font-size: 1.5rem;
             width: 8.5rem;
-            background-color: $color-primary;
+            background-color: rgba($color: #3b99d7, $alpha: 0.7);
             padding: 0.5rem 0.5rem;
             border-radius: 6px;
             transition: all 0.3s;

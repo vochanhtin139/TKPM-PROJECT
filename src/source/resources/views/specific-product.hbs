@@ -25,8 +25,7 @@
           <h3
             class="score m-0"
             style="font-family: 'Inter', sans-serif;"
-          >{{showStar stars.avgRating}} <i class="fa-solid fa-star"></i>
-          /5 <i class="fa-solid fa-star"></i>
+          >{{showStar stars.avgRating}}/5 (độ yêu thích)
           </h3>
           <h3
             class="number mb-0"
@@ -124,7 +123,7 @@
 
             <div class="information d-flex align-items-center">
               <div class="avatar">
-                <a href="/account/page/{{this.idAccount._id}}">
+                <a href="#">
                   <img
                     class="img-avatar"
                     src="{{this.idAccount.avatar}}"
@@ -143,8 +142,7 @@
                   <h3
                     class="score m-0"
                     style="font-family: 'Inter', sans-serif; font-size: 1.5rem;"
-                  >{{showStar this.rating}} <i class="fa-solid fa-star"></i>
-                  /5 <i class="fa-solid fa-star"></i></h3>
+                  >{{showStar this.rating}}/5 (độ yêu thích)</h3>
                 {{else}}
                   {{! Nội dung khi điều kiện sai }}
                 {{/if}}

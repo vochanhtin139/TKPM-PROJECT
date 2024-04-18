@@ -65,24 +65,20 @@ class announceController {
   // [GET] /announcement/list
   getListAnnouncement = async (req, res, next) => {
     try {
-      if (req.user) {
-        const announcements = await Announcement.find({
-          $or: [{ recipient: "Everyone" }, { recipient: req.user.role + "s" }],
-        }).sort({ time: -1 });
-        if (req.session.readAnnounce.length < announcements.length) {
-          for (
-            let i = 0;
-            i < announcements.length - req.session.readAnnounce.length;
-            i++
-          ) {
-            req.session.readAnnounce.unshift(1);
-          }
+      const announcements = await Announcement.find({
+        $or: [{ recipient: "Everyone" }, { recipient: req.user.role + "s" }],
+      }).sort({ time: -1 });
+      if (req.session.readAnnounce.length < announcements.length) {
+        for (
+          let i = 0;
+          i < announcements.length - req.session.readAnnounce.length;
+          i++
+        ) {
+          req.session.readAnnounce.unshift(1);
         }
-        const readArr = req.session.readAnnounce;
-        res.json({ announcements, readArr });
-      } else {
-        res.json({});
       }
+      const readArr = req.session.readAnnounce;
+      res.json({ announcements, readArr });
     } catch (err) {
       next(err);
     }

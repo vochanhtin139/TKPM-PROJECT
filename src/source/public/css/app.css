@@ -802,8 +802,9 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     padding: 0 0; }
   .trend .trend-card-img {
     background-color: #fff;
-    height: 30rem; }
+    height: 100%; }
     .trend .trend-card-img .trend-prod-img {
+      float: left;
       height: 100%;
       object-fit: contain; }
   .trend .trend-card-title {
@@ -843,10 +844,6 @@ a.btn:hover, a.btn:active, a.btn:first-child:active,
     .trend .see-more-btn .trend-btn:hover {
       color: #fff;
       background-color: #337ab7; }
-
-.far-from-head {
-  margin-top: 17rem;
-  margin-bottom: 3rem; }
 
 .container-ext, .manage-product, .edit-product, .dashboard {
   background-color: #fff;
@@ -1215,7 +1212,7 @@ section article.skills {
           cursor: pointer; }
           .specific-product .payment-section .details-item .intro .report-section button {
             display: none;
-            background-color: #3b99d7;
+            background-color: rgba(59, 153, 215, 0.7);
             border-radius: 5px;
             width: 8.5rem;
             height: 3.3rem;
@@ -1227,7 +1224,7 @@ section article.skills {
             display: none;
             font-size: 1.5rem;
             width: 8.5rem;
-            background-color: #3b99d7;
+            background-color: rgba(59, 153, 215, 0.7);
             padding: 0.5rem 0.5rem;
             border-radius: 6px;
             transition: all 0.3s; }
