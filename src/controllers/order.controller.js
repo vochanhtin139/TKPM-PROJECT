@@ -124,16 +124,9 @@ class orderController {
   getPayForCart = async (req, res, next) => {
     try {
       // const productId = req.params.id;
-      const accBuyer = await Account.findOne({ _id: req.user.id })
-      .populate({
-        path: "cart._id",
-        populate: {
-          path: "idAccount"
-        }
-      });
-      // .populate(
-      //   "cart._id"
-      // );
+      const accBuyer = await Account.findOne({ _id: req.user.id }).populate(
+        "cart._id"
+      );
       // const product = await Product.findOne({ _id: req.params._id })
       // .populate('idAccount')
       // res.json(accBuyer)
@@ -169,7 +162,7 @@ class orderController {
         detail: [
           {
             idProduct: product._id,
-            quantity: req.query.quantity,
+            quantity: 1,
             isEvaluated: false,
           },
         ],
@@ -188,11 +181,9 @@ class orderController {
 
   placeOrderForCart = async (req, res, next) => {
     try {
-      const accBuyer = await Account.findOne({ _id: req.user.id })
-      .populate(
+      const accBuyer = await Account.findOne({ _id: req.user.id }).populate(
         "cart._id"
-      )
-      .populate("cart._id.idAccount");
+      );
 
       const orders = accBuyer.cart.map((cartItem) => {
         const idSeller = cartItem._id.idAccount;
