@@ -24,8 +24,6 @@
 
         .img-product {
           width: 35rem;
-          // vertical-align: middle;
-          // object-fit:scale-down;
         }
       }
     }
@@ -49,7 +47,7 @@
 
           button {
             display: none;
-            background-color: rgba($color: #3b99d7, $alpha: 0.7);
+            background-color: $color-primary;
             border-radius: 5px;
             width: 8.5rem;
             height: 3.3rem;
@@ -63,10 +61,14 @@
             display: none;
             font-size: 1.5rem;
             width: 8.5rem;
-            background-color: rgba($color: #3b99d7, $alpha: 0.7);
+            background-color: $color-primary-tint;
             padding: 0.5rem 0.5rem;
             border-radius: 6px;
             transition: all 0.3s;
+            a {
+              color: #000;
+              white-space: nowrap;
+            }
           }
 
           &:hover button,
@@ -212,7 +214,7 @@
           right: 0.5%;
           top: 41%;
           padding: 1rem;
-          button{
+          button {
             background: transparent;
           }
 
@@ -252,8 +254,6 @@
               margin-bottom: 0.2rem;
             }
 
-
-
             &:hover button {
               display: block;
             }
@@ -277,7 +277,8 @@
                 font-weight: 600;
               }
 
-              .date {}
+              .date {
+              }
             }
           }
 
@@ -381,6 +382,10 @@
       width: 18vw;
     }
 
+    .trend-card-img {
+      height: unset;
+    }
+
     .trend-row {
       margin-top: 3rem;
 
@@ -395,7 +400,7 @@
         }
 
         .trend-prod-img {
-          height: 22rem;
+          height: 22rem !important;
         }
 
         .trend-card-price {

@@ -87,7 +87,10 @@ class productController {
   // [GET] product/manage
   getManage = async (req, res, next) => {
     try {
-      let options = { idAccount: req.user.id };
+      let options = {
+        idAccount: req.user.id,
+        $or: [{ status: "Available" }, { status: "Reported" }],
+      };
       // let options = { idAccount: req.user.id, status: "Available" };
       // Tìm kiếm
       let keyword = req.query.keyword || "";
@@ -204,14 +207,15 @@ class productController {
       const product = await Product.findById(req.params.id);
       if (req.file) {
         if (product.image != "/img/products/default.png") {
-          // fs.unlinkSync(`./source/public${product.image}`);
+          fs.unlinkSync(`./source/public${product.image}`);
         }
         formData.image = req.file.path.replace("source/public", "");
       } else if (product.image == "/img/products/default.png") {
         formData.image = "/img/products/default.png";
       }
+      formData.status = "Pending";
       await Product.updateOne({ _id: req.params.id }, formData);
-      res.redirect("/product/manage");
+      res.render("message/processing-request");
     } catch (err) {
       next(err);
     }
@@ -278,7 +282,7 @@ class productController {
         if (product._id == req.params.id) {
           req.session.cart.splice(idx, 1);
           if (req.user) {
-            await Account.findOneAndUpdate(
+            await Account.updateOne(
               { _id: req.user._id },
               { cart: req.session.cart }
             );
@@ -294,12 +298,21 @@ class productController {
   // [GET] product/all-product
   showAllProduct = async (req, res, next) => {
     try {
-      let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
       const limit = 8;
-      const products = await Product.find({})
+      const products = await Product.find({
+        $or: [{ status: "Available" }, { status: "Reported" }],
+      })
         .skip((page - 1) * limit)
         .limit(limit);
       const categories = await Product.aggregate([
+        {
+          $match: {
+            status: { $in: ["Available", "Reported"] },
+          },
+        },
         {
           $group: {
             _id: "$category",
@@ -310,7 +323,9 @@ class productController {
           $sort: { _id: 1 },
         },
       ]);
-      res.locals._numberOfItems = await Product.find().countDocuments();
+      res.locals._numberOfItems = await Product.find({
+        $or: [{ status: "Available" }, { status: "Reported" }],
+      }).countDocuments();
       res.locals._limit = limit;
       res.locals._currentPage = page;
 
@@ -325,14 +340,25 @@ class productController {
   // [GET] product/all-product/category
   filterProduct = async (req, res, next) => {
     try {
-      let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-      console.log(page)
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      console.log(page);
       const limit = 8;
 
       const type = req.query.category; //? req.query.category : 0
-      const products = await Product.find({ category: type }).skip((page - 1) * limit)
-        .limit(limit)
+      const products = await Product.find({
+        category: type,
+        $or: [{ status: "Available" }, { status: "Reported" }],
+      })
+        .skip((page - 1) * limit)
+        .limit(limit);
       const categories = await Product.aggregate([
+        {
+          $match: {
+            status: { $in: ["Available", "Reported"] },
+          },
+        },
         {
           $group: {
             _id: "$category",
@@ -343,7 +369,10 @@ class productController {
           $sort: { _id: 1 }, // Sắp xếp giảm dần dựa trên trường 'count'
         },
       ]);
-      res.locals._numberOfItems = await Product.find({ category: type }).countDocuments();
+      res.locals._numberOfItems = await Product.find({
+        category: type,
+        $or: [{ status: "Available" }, { status: "Reported" }],
+      }).countDocuments();
       res.locals._limit = limit;
       res.locals._currentPage = page;
 
@@ -359,8 +388,10 @@ class productController {
   // [GET] product/all-product/sort
   sortProduct = async (req, res, next) => {
     try {
-      let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-      console.log(page)
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      console.log(page);
       const limit = 8;
 
       const type = req.query.sort;
@@ -375,10 +406,18 @@ class productController {
         options.name = regex;
       }
 
-      const products = await Product.find(options).sort({ [type]: order })
+      options.$or = [{ status: "Available" }, { status: "Reported" }];
+
+      const products = await Product.find(options)
+        .sort({ [type]: order })
         .skip((page - 1) * limit)
-        .limit(limit)
+        .limit(limit);
       const categories = await Product.aggregate([
+        {
+          $match: {
+            status: { $in: ["Available", "Reported"] },
+          },
+        },
         {
           $group: {
             _id: "$category",
@@ -405,18 +444,28 @@ class productController {
   // [GET] product/all-product/search
   searchProduct = async (req, res, next) => {
     try {
-      let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-      console.log(page)
+      let page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      console.log(page);
       const limit = 8;
 
       const keyword = req.query.keyword || "";
       if (keyword.trim() != "") {
         const regex = new RegExp(keyword, "i");
-        const products = await Product.find({ name: regex })
+        const products = await Product.find({
+          name: regex,
+          $or: [{ status: "Available" }, { status: "Reported" }],
+        })
           .skip((page - 1) * limit)
-          .limit(limit)
+          .limit(limit);
 
         const categories = await Product.aggregate([
+          {
+            $match: {
+              status: { $in: ["Available", "Reported"] },
+            },
+          },
           {
             $group: {
               _id: "$category",
@@ -427,7 +476,10 @@ class productController {
             $sort: { _id: 1 },
           },
         ]);
-        res.locals._numberOfItems = await Product.find({ name: regex }).countDocuments();
+        res.locals._numberOfItems = await Product.find({
+          name: regex,
+          $or: [{ status: "Available" }, { status: "Reported" }],
+        }).countDocuments();
         res.locals._limit = limit;
         res.locals._currentPage = page;
 
@@ -455,19 +507,17 @@ class productController {
         .sort({ date: -1 });
 
       const evaNumber = await Evaluate.find({ idProduct: productId })
-      .populate({
-        path: "idAccount",
-        select: "firstName lastName avatar",
-      })
-      .sort({ date: -1 }).countDocuments();
-
-      // console.log(evaNumber)
-
+        .populate({
+          path: "idAccount",
+          select: "firstName lastName avatar",
+        })
+        .sort({ date: -1 })
+        .countDocuments();
       const stars = await Evaluate.aggregate([
         {
           $match: {
             idProduct: productId,
-            rating: { $ne: 0 }
+            rating: { $ne: 0 },
           },
         },
         {
@@ -522,17 +572,12 @@ class productController {
 
       const limit = 10;
       const product1 = await Product.find()
+        .populate("idAccount")
         .sort({ time: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
       const allProducts = mutipleMongooseToObject(product1);
-      for (const each of allProducts) {
-        const account = await Account.findOne(
-          { _id: each.idAccount },
-          "shopName"
-        );
-        each.shopName = account.shopName;
-      }
+
       res.locals._numberOfItems = await Product.find().countDocuments();
       res.locals._limit = limit;
       res.locals._currentPage = page;
@@ -554,19 +599,14 @@ class productController {
 
       const limit = 10;
       const product1 = await Product.find({ status: "Banned" })
+        .populate("idAccount")
         .sort({ time: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
       const allProducts = mutipleMongooseToObject(product1);
-      for (const each of allProducts) {
-        const account = await Account.findOne(
-          { _id: each.idAccount },
-          "shopName"
-        );
-        each.shopName = account.shopName;
-      }
+
       res.locals._numberOfItems = await Product.find({
-        status: "banned",
+        status: "Banned",
       }).countDocuments();
       res.locals._limit = limit;
       res.locals._currentPage = page;
@@ -588,17 +628,11 @@ class productController {
 
       const limit = 10;
       const product1 = await Product.find({ status: "Pending" })
+        .populate("idAccount")
         .sort({ time: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
       const allProducts = mutipleMongooseToObject(product1);
-      for (const each of allProducts) {
-        const account = await Account.findOne(
-          { _id: each.idAccount },
-          "shopName"
-        );
-        each.shopName = account.shopName;
-      }
       res.locals._numberOfItems = await Product.find({
         status: "Pending",
       }).countDocuments();
@@ -622,17 +656,11 @@ class productController {
 
       const limit = 10;
       const product1 = await Product.find({ status: "Reported" })
+        .populate("idAccount")
         .sort({ time: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
       const allProducts = mutipleMongooseToObject(product1);
-      for (const each of allProducts) {
-        const account = await Account.findOne(
-          { _id: each.idAccount },
-          "shopName"
-        );
-        each.shopName = account.shopName;
-      }
       res.locals._numberOfItems = await Product.find({
         status: "Reported",
       }).countDocuments();
@@ -655,18 +683,14 @@ class productController {
         : Math.max(1, parseInt(req.query.page));
 
       const limit = 10;
-      const product1 = await Product.find({ status: "Trending" })
+      const product1 = await Product.find({
+        $or: [{ status: "Available", isTrend: true }, { status: "Trending" }],
+      })
+        .populate("idAccount")
         .sort({ time: -1 })
         .skip((page - 1) * limit)
         .limit(limit);
       const allProducts = mutipleMongooseToObject(product1);
-      for (const each of allProducts) {
-        const account = await Account.findOne(
-          { _id: each.idAccount },
-          "shopName"
-        );
-        each.shopName = account.shopName;
-      }
       res.locals._numberOfItems = await Product.find({
         status: "Trending",
       }).countDocuments();

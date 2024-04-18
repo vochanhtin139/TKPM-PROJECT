@@ -100,11 +100,12 @@ else {
       let newUrl = window.location.href;
       newUrl = newUrl.split("page=");
       if (newUrl[1]) {
-        newUrl[1] = newUrl[1].slice(1);
+        newUrl[1] = newUrl[1].slice(String(numPages).length);
         newUrl = newUrl[0] + `page=${currentPage}` + newUrl[1];
       } else {
-        if (newUrl[0].includes("?") || newUrl[1].includes("?")) {
-          newUrl = newUrl[0] + `&page=${currentPage}` + newUrl[1];
+        if (newUrl[0]?.includes("?") || newUrl[1]?.includes("?")) {
+          newUrl =
+            newUrl[0] + `&page=${currentPage}` + (newUrl[1] ? newUrl[1] : "");
         } else newUrl = newUrl[0] + `?page=${currentPage}`;
       }
       console.log("New URL: ", newUrl);
