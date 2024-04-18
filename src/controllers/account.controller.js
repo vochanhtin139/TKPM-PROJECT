@@ -166,7 +166,6 @@ class acccountController {
           return res.render("forgot-password", { done: true });
         })
         .catch((error) => {
-          console.log(error.statusCode);
           return res.render("forgot-password", {
             message:
               "An error has occured when sending to your email address. Please check your email address!",
@@ -273,7 +272,7 @@ class acccountController {
       const user = await Account.findById(accountId);
       user.accountStatus = "Reported";
       await user.save();
-      
+
       res.redirect(`/account/page/${req.params.idUser}`);
     } catch (err) {
       next(err);
@@ -305,7 +304,6 @@ class acccountController {
   updateMyProfile = async (req, res, next) => {
     // res.json(req.body);
     // Account.updateOne({_id: req.params._id}, req.body);
-    console.log(req.body);
     const accountId = req.params._id;
     const user = await Account.findById(accountId);
 
@@ -316,8 +314,6 @@ class acccountController {
     user.phone = req.body.phone;
     user.job = req.body.job;
     user.avatar = req.body.avatarPath;
-    // console.log(req.body);
-    // res.json(req.body);
     await user.save();
     try {
       // Check if the present password matches the one in the database
@@ -333,7 +329,6 @@ class acccountController {
       // Hash the new password and update it in the database
       const hashedNewPassword = await bcrypt.hash(req.body.newPassword, 10);
       user.password = hashedNewPassword;
-      // console.log(user);
 
       // Save the updated user data to the database
       await user.save();
@@ -485,7 +480,6 @@ class acccountController {
     try {
       const accountId = req.params._id;
       const user = await Account.findById(accountId);
-      // console.log(user);
       res.locals.user = mongooseToObject(user);
       res.locals.switchRole = "Become seller";
       res.locals.switchLink = "account/become-seller/" + accountId;
@@ -623,7 +617,6 @@ class acccountController {
 
   // [POST] account/exec-account
   executeAccount = async (req, res, next) => {
-    console.log(req.query.id);
     try {
       const user = await Account.findById(req.query.id);
       const type = req.query.type;

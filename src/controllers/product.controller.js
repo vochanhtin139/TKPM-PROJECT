@@ -49,7 +49,10 @@ class productController {
         else cate[3] += product.stock;
         idProductForFindEval.push({ idProduct: product._id });
       }
-      const evaluates = await Evaluate.find({ $or: idProductForFindEval });
+      let evaluates = [];
+      if (idProductForFindEval?.length > 0) {
+        evaluates = await Evaluate.find({ $or: idProductForFindEval });
+      }
       stock = productAll.reduce((acc, product) => acc + product.stock, 0);
       review = evaluates.length;
       for (let i = 0; i < evaluates.length; i++) {
@@ -69,7 +72,13 @@ class productController {
       res.locals._review = review;
       res.locals._sucOrder = sucOrder;
       res.locals._rating = (sumRating / rating).toFixed(1);
+      if (isNaN(res.locals._rating)) {
+        res.locals._rating = 0;
+      }
       res.locals._percent = ((sucOrder / order) * 100).toFixed(0);
+      if (isNaN(res.locals._percent)) {
+        res.locals._percent = 0;
+      }
       res.render("dashboard", {
         convertMoney: (str) => {
           return Number(str).toLocaleString("it-IT", {
@@ -278,7 +287,7 @@ class productController {
   // [DELETE] product/cart
   deleteFromCart = async (req, res, next) => {
     try {
-      req.session.cart.forEach(async (product, idx) => {
+      await req.session.cart.forEach(async (product, idx) => {
         if (product._id == req.params.id) {
           req.session.cart.splice(idx, 1);
           if (req.user) {
@@ -343,7 +352,6 @@ class productController {
       let page = isNaN(req.query.page)
         ? 1
         : Math.max(1, parseInt(req.query.page));
-      console.log(page);
       const limit = 8;
 
       const type = req.query.category; //? req.query.category : 0
@@ -391,7 +399,6 @@ class productController {
       let page = isNaN(req.query.page)
         ? 1
         : Math.max(1, parseInt(req.query.page));
-      console.log(page);
       const limit = 8;
 
       const type = req.query.sort;
@@ -447,7 +454,6 @@ class productController {
       let page = isNaN(req.query.page)
         ? 1
         : Math.max(1, parseInt(req.query.page));
-      console.log(page);
       const limit = 8;
 
       const keyword = req.query.keyword || "";
@@ -707,7 +713,6 @@ class productController {
 
   // [POST] account/exec-product
   executeProduct = async (req, res, next) => {
-    console.log(req.query.id);
     try {
       const product = await Product.findById(req.query.id);
       const type = req.query.type;
